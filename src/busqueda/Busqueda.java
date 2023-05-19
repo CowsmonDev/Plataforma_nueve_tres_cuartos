@@ -1,8 +1,6 @@
 package busqueda;
 
-import busqueda.filtros.FiltrosEmpresas;
-import busqueda.filtros.FiltrosOmnibus;
-import busqueda.filtros.FiltrosViajes;
+import busqueda.filtros.Filtros;
 import empresas.Empresa;
 import empresas.Omnibus;
 import empresas.Viaje;
@@ -12,22 +10,22 @@ import java.util.List;
 
 public class Busqueda {
 
-    private FiltrosEmpresas filtrosEmpresas = null;
-    private FiltrosOmnibus filtrosOmnibus = null;
-    private FiltrosViajes filtrosViajes = null;
+    private Filtros<Empresa> filtrosEmpresas = null;
+    private Filtros<Omnibus> filtrosOmnibus = null;
+    private Filtros<Viaje> filtrosViajes = null;
 
 
-    public Busqueda setFiltroEmpresa(FiltrosEmpresas filtro){
+    public Busqueda setFiltroEmpresa(Filtros<Empresa> filtro){
         this.filtrosEmpresas = filtro;
         return this;
     }
 
-    public Busqueda setFiltroOmnibus(FiltrosOmnibus filtro){
+    public Busqueda setFiltroOmnibus(Filtros<Omnibus> filtro){
         this.filtrosOmnibus = filtro;
         return this;
     }
 
-    public Busqueda setFiltroViajes(FiltrosViajes filtro){
+    public Busqueda setFiltroViajes(Filtros<Viaje> filtro){
         this.filtrosViajes = filtro;
         return this;
     }
