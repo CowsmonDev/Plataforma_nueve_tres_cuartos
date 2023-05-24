@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Empresa {
 
+    private String id_empresa;
     private String nombre;
     private List<Omnibus> omnibus = new ArrayList<>();
 
@@ -14,6 +15,10 @@ public class Empresa {
 
     public List<Omnibus> getOmnibus() {
         return omnibus;
+    }
+
+    public void addOmnibus(Omnibus omnibus){
+        this.omnibus.add(omnibus);
     }
 
     public String getNombre() { return nombre; }
