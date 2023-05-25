@@ -1,4 +1,5 @@
 import busqueda.Busqueda;
+import busqueda.filtros.FiltrosFecha;
 import empresas.Empresa;
 import empresas.Viaje;
 
@@ -15,15 +16,23 @@ public class Main {
     }
 
     //Metodos de Seleccion de origen y destino
-    public void listarCiudades(List<Viaje> viajes){
+    public void listarCiudades(List<Empresa> empresas){
+
         List<String> origen = new ArrayList<>();
         List<String> destino = new ArrayList<>();
-        Date fechaActual = new Date();
 
-        for(int i=0; i<viajes.size(); i++){
-            if(fechaActual.after(viajes.get(i).getFecha())){
-                origen.add(viajes.get(i).getOrigen());
-                destino.add(viajes.get(i).getDestino());
+        Date fechaActual = new Date();
+        Busqueda b = new Busqueda();
+        FiltrosFecha f = new FiltrosFecha(fechaActual);
+        b.setFiltroViajes(f);
+        List<Empresa> e = b.buscar(empresas);
+
+        for(int i=0; i<e.size(); i++){
+            for(int j=0; j<e.get(i).getOmnibus().size(); j++){
+                for (int k=0; j<e.get(i).getOmnibus().get(j).getViajes().size(); k++){
+                    origen.add(e.get(i).getOmnibus().get(j).getViajes().get(k).getOrigen());
+                    destino.add(e.get(i).getOmnibus().get(j).getViajes().get(k).getDestino());
+                }
             }
         }
 

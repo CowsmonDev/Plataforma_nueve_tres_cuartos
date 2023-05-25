@@ -12,6 +12,7 @@ public class FiltroNombreEmpresa implements Filtros<Empresa> {
 
     @Override
     public boolean filtrar(Empresa element) {
+
         return element.getNombre().equals(this.nombre);
     }
 }
