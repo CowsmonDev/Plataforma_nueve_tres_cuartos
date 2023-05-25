@@ -17,14 +17,17 @@ public class ListaDeViajes {
 
     public void addViaje(Empresa e, Omnibus o, String origen, String destino, float precio){
         if(empresas.containsKey(e.getIdEmpresa()) && omnibus.containsKey(o.getIdOmnibus())){
-            viajes.add(new Viaje(o, origen, destino, precio));
+            Viaje v = new Viaje(o, origen, destino, precio);
+            o.getViajes().add(v);
+            viajes.add(v);
         }
     }
 
     public void addOmnibus(String id_omnibus, Empresa e){
-        if(empresas.containsKey(e.getIdEmpresa())){
+        if(empresas.containsKey(e.getIdEmpresa()) && !omnibus.containsKey(id_omnibus)){
             Omnibus o = new Omnibus(e, id_omnibus);
             omnibus.put(id_omnibus, o);
+            e.getOmnibus().add(o);
         }
     }
 
