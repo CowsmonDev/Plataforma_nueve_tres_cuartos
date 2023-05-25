@@ -1,6 +1,6 @@
-package busqueda.filtros;
+package data.busqueda.filtros;
 
-import empresas.Empresa;
+import data.empresas.Empresa;
 
 public class FiltroNombreEmpresa implements Filtros<Empresa> {
 

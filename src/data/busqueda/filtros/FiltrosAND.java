@@ -1,4 +1,4 @@
-package busqueda.filtros;
+package data.busqueda.filtros;
 
 public class FiltrosAND<T> implements Filtros<T>{
 

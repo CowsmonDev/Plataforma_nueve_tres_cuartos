@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>data.busqueda.Busqueda</OriginalElement>
+  <nodes>
+    <node x="-533.625" y="1014.8300709219857">data.ListaDeViajes</node>
+    <node x="-454.75255116077335" y="517.2141843971631">data.empresas.Omnibus</node>
+    <node x="-830.2859929078014" y="517.2141843971631">data.empresas.Empresa</node>
+    <node x="1.4863475177305645" y="517.2141843971631">data.empresas.Viaje</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="data.ListaDeViajes" target="data.empresas.Viaje" relationship="TO_MANY">
+      <point x="109.90455155423422" y="-75.07914893617044" />
+      <point x="55.172842887895285" y="1054.7509219858152" />
+      <point x="-65.31350462983528" y="205.95410708889608" />
+    </edge>
+    <edge source="data.ListaDeViajes" target="data.empresas.Empresa" relationship="CREATE">
+      <point x="-147.7437110623316" y="15.774661655965588" />
+      <point x="-515.8687110623316" y="1129.8300709219857" />
+      <point x="-787.0359929078014" y="1129.8300709219857" />
+      <point x="-43.25" y="87.0" />
+    </edge>
+    <edge source="data.empresas.Omnibus" target="data.empresas.Empresa" relationship="TO_ONE">
+      <point x="0.0" y="-87.0" />
+      <point x="-359.25255116077335" y="533.8801134751772" />
+      <point x="-700.5359929078014" y="533.8801134751772" />
+      <point x="43.25" y="87.0" />
+    </edge>
+    <edge source="data.ListaDeViajes" target="data.empresas.Omnibus" relationship="CREATE">
+      <point x="-39.37885270108484" y="-112.69761075199995" />
+      <point x="-407.50385270108484" y="735.3270921985816" />
+      <point x="-407.00255116077335" y="735.3270921985816" />
+      <point x="-47.75" y="87.0" />
+    </edge>
+    <edge source="data.empresas.Viaje" target="data.empresas.Omnibus" relationship="TO_ONE">
+      <point x="-8.022724487991354" y="-179.87568014514625" />
+      <point x="-311.50255116077335" y="536.3385042520168" />
+      <point x="47.75" y="87.0" />
+    </edge>
+    <edge source="data.ListaDeViajes" target="data.empresas.Empresa" relationship="TO_MANY">
+      <point x="-124.49658319753871" y="-106.15009302150361" />
+      <point x="-492.6215831975387" y="1035.586731202371" />
+      <point x="-725.7027383748436" y="1035.586731202371" />
+      <point x="18.083254532957767" y="66.63577704941827" />
+    </edge>
+    <edge source="data.ListaDeViajes" target="data.empresas.Viaje" relationship="CREATE">
+      <point x="167.22442444817887" y="-5.589949648692709" />
+      <point x="215.58702728505818" y="1124.240121273293" />
+      <point x="95.10067976732762" y="196.13283049315146" />
+    </edge>
+    <edge source="data.ListaDeViajes" target="data.empresas.Omnibus" relationship="TO_MANY">
+      <point x="56.62244883922665" y="-111.64426286116304" />
+      <point x="47.75" y="87.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.6109185441941078" showDependencies="true" x="-245.19453299862937" y="838.3427595711655" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

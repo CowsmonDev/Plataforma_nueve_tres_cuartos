@@ -1,6 +1,5 @@
-package empresas;
+package data.empresas;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Viaje {

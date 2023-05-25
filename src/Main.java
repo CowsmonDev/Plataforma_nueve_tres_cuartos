@@ -1,8 +1,7 @@
-import busqueda.Busqueda;
-import empresas.Empresa;
+import data.busqueda.Busqueda;
+import data.empresas.Empresa;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
