@@ -1,12 +1,12 @@
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
 import busqueda.Busqueda;
 import busqueda.filtros.FiltrosFecha;
 import empresas.Empresa;
-import empresas.Viaje;
-
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import empresas.Omnibus;
 
 public class Main {
     public static void main(String[] args) {
@@ -59,6 +59,25 @@ public class Main {
 
         scanner.close();
     }
+
+    //funcion para filtrado de omnibuses
+    public ArrayList<Omnibus> posiblesOmn(){
+        ArrayList<Omnibus> o1 = new ArrayList<>();
+
+        //averiguar de que manera se puede recorrer la estructura prediseñada
+
+        for(ArrayList<Omnibus> o : /*arraylist de omnibuses correspondiente*/)
+            if(!cumple(o)/* condicion de agregacion */){
+                continue;
+            }else{
+                o1.add(o);
+            }
+        
+
+        return o1;
+    }
+
+    public 
 
 
 }
