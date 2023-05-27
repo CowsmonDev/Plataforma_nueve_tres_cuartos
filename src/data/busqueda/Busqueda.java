@@ -1,9 +1,9 @@
-package busqueda;
+package data.busqueda;
 
-import busqueda.filtros.Filtros;
-import empresas.Empresa;
-import empresas.Omnibus;
-import empresas.Viaje;
+import data.busqueda.filtros.Filtros;
+import data.empresas.Empresa;
+import data.empresas.Omnibus;
+import data.empresas.Viaje;
 
 import java.util.ArrayList;
 import java.util.List;

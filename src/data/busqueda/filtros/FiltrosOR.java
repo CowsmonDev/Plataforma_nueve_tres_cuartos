@@ -1,4 +1,4 @@
-package busqueda.filtros;
+package data.busqueda.filtros;
 
 public class FiltrosOR<T> implements Filtros<T>{
     private final Filtros<T>[] filtros;
