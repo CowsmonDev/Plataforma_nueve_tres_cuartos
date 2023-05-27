@@ -1,6 +1,7 @@
-package busqueda.filtros;
+package data.busqueda.filtros;
 
-import empresas.Viaje;
+
+import data.empresas.Viaje;
 
 import java.util.Date;
 

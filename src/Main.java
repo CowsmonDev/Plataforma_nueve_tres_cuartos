@@ -1,12 +1,13 @@
-import java.text.SimpleDateFormat;
-import java.util.*;
+import data.busqueda.filtros.FiltrosFecha;
+import data.busqueda.Busqueda;
+import data.empresas.Empresa;
+import data.empresas.Omnibus;
+import data.empresas.Viaje;
 
-import busqueda.Busqueda;
-import busqueda.filtros.Filtros;
-import busqueda.filtros.FiltrosFecha;
-import empresas.Empresa;
-import empresas.Omnibus;
-import empresas.Viaje;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
