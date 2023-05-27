@@ -23,6 +23,10 @@ public class Viaje {
     public float getPrecio() { return precio; }
     public Omnibus getOmnibus() { return omnibus; }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
     public void setOrigen(String origen) { this.origen = origen; }
     public void setDestino(String destino) { this.destino = destino; }
     public void setPrecio(float precio) { this.precio = precio; }
