@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,7 +78,15 @@ public class Main {
         return o1;
     }
 
-    public 
+    public void elegirFechas() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Elegir fecha ida: ");
+        String ida = scanner.nextLine();
+        System.out.println("Elegir fecha vuelta: ");
+        String vuelta = scanner.nextLine();
+        // String a Date?
+        // Usuario selecciona fecha sin ser necesario un listado previo. Luego se filtra.
+    }
 
 
 }
