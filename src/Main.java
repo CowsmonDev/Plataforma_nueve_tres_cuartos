@@ -1,13 +1,12 @@
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import busqueda.Busqueda;
+import busqueda.filtros.Filtros;
 import busqueda.filtros.FiltrosFecha;
 import empresas.Empresa;
 import empresas.Omnibus;
+import empresas.Viaje;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,37 +16,31 @@ public class Main {
     }
 
     //Metodos de Seleccion de origen y destino
-    public void listarCiudades(List<Empresa> empresas){
+    public void listarCiudades(List<Empresa> empresas_totales){
 
         List<String> origen = new ArrayList<>();
         List<String> destino = new ArrayList<>();
+        //Set<String> origen = new HashSet<>();
+        //Set<String> destino = new HashSet<>();
 
-        Date fechaActual = new Date();
         Busqueda b = new Busqueda();
-        FiltrosFecha f = new FiltrosFecha(fechaActual);
-        b.setFiltroViajes(f);
-        List<Empresa> e = b.buscar(empresas);
-
-        for(int i=0; i<e.size(); i++){
-            for(int j=0; j<e.get(i).getOmnibus().size(); j++){
-                for (int k=0; j<e.get(i).getOmnibus().get(j).getViajes().size(); k++){
-                    origen.add(e.get(i).getOmnibus().get(j).getViajes().get(k).getOrigen());
-                    destino.add(e.get(i).getOmnibus().get(j).getViajes().get(k).getDestino());
-                }
-            }
-        }
+        b.setFiltroViajes(new FiltrosFecha(new Date()));
+        List<Empresa> empresas = b.buscar(empresas_totales);
 
         System.out.println("Ciudades posibles:");
-        for(int i=0; i<origen.size(); i++){
-            if (i != origen.size()-1){
-                System.out.print("Origen: " + origen.get(i) + "Destino: " + destino.get(i) +  ", ");
-            }else{
-                System.out.println("Origen: " + origen.get(i) + "Destino: " + destino.get(i));
+        for(Empresa e : empresas){
+            for(Omnibus o : e.getOmnibus()){
+                for(Viaje v : o.getViajes()){
+                    origen.add(v.getOrigen());
+                    destino.add(v.getDestino());
+                    System.out.println("Origen: " + v.getOrigen() + "Destino: " + v.getDestino());
+                }
             }
         }
     }
 
     public void elegirCiudades(){
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Elegir ciudad origen: ");
         String origen = scanner.nextLine();
@@ -62,18 +55,19 @@ public class Main {
     }
 
     //funcion para filtrado de omnibuses
-    public ArrayList<Omnibus> posiblesOmn(){
+    public ArrayList<Omnibus> posiblesOmn(List<Empresa> empresas_totales, Filtros<Omnibus> f){
         ArrayList<Omnibus> o1 = new ArrayList<>();
 
-        //averiguar de que manera se puede recorrer la estructura prediseñada
 
-        for(ArrayList<Omnibus> o : /*arraylist de omnibuses correspondiente*/)
-            if(!cumple(o)/* condicion de agregacion */){
-                continue;
-            }else{
+        Busqueda b = new Busqueda();
+        b.setFiltroOmnibus(f);
+
+        List<Empresa> empresas = b.buscar(empresas_totales);
+        for(Empresa e : empresas){
+            for(Omnibus o : e.getOmnibus()){
                 o1.add(o);
             }
-        
+        }
 
         return o1;
     }
