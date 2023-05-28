@@ -5,11 +5,11 @@ import data.empresas.Viaje;
 
 import java.util.Date;
 
-public class FiltrosFecha implements Filtros<Viaje>{
+public class FiltrosFechaEnAdelante implements Filtros<Viaje>{
 
     private Date fecha;
 
-    public FiltrosFecha(Date fecha) {
+    public FiltrosFechaEnAdelante(Date fecha) {
         this.fecha = fecha;
     }
 
