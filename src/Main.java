@@ -1,13 +1,17 @@
+import data.busqueda.Pair;
 import data.busqueda.filtros.FiltrosFecha;
 import data.busqueda.Busqueda;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,27 +21,29 @@ public class Main {
     }
 
     //Metodos de Seleccion de origen y destino
-    public void listarCiudades(List<Empresa> empresas_totales){
-
-        List<String> origen = new ArrayList<>();
-        List<String> destino = new ArrayList<>();
-        //Set<String> origen = new HashSet<>();
-        //Set<String> destino = new HashSet<>();
+    public void listarCiudades(List<Empresa> empresas_totales) {
+        Set<Pair<String, String>> pares = new HashSet<>();
 
         Busqueda b = new Busqueda();
         b.setFiltroViajes(new FiltrosFecha(new Date()));
         List<Empresa> empresas = b.buscar(empresas_totales);
 
         System.out.println("Ciudades posibles:");
-        for(Empresa e : empresas){
-            for(Omnibus o : e.getOmnibus()){
-                for(Viaje v : o.getViajes()){
-                    origen.add(v.getOrigen());
-                    destino.add(v.getDestino());
-                    System.out.println("Origen: " + v.getOrigen() + "Destino: " + v.getDestino());
+        for (Empresa e : empresas) {
+            for (Omnibus o : e.getOmnibus()) {
+                for (Viaje v : o.getViajes()) {
+                    Pair<String, String> par = new Pair<>(v.getOrigen(), v.getDestino());
+                    pares.add(par);
                 }
             }
         }
+
+        // Imprimir la lista de pares
+        for (Pair<String, String> par : pares) {
+            System.out.println("Origen: " + par.getFirst() + ", Destino: " + par.getSecond());
+        }
+
+        elegirCiudades();
     }
 
     public void elegirCiudades(){
