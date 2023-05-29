@@ -1,12 +1,12 @@
 package data.busqueda;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import data.busqueda.filtros.Filtros;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Busqueda {
 
@@ -44,7 +44,7 @@ public class Busqueda {
             }
             return empresas;
     }
-    private List<Omnibus> buscarOmnibus(List<Omnibus> omnibus_a_filtrar){
+    public List<Omnibus> buscarOmnibus(List<Omnibus> omnibus_a_filtrar){
         List<Omnibus> omnibus = new ArrayList<>();
         for (Omnibus o : omnibus_a_filtrar){
             if(this.filtrosOmnibus != null && !this.filtrosOmnibus.filtrar(o)){
