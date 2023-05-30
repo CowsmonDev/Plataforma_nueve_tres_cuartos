@@ -1,12 +1,12 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import data.busqueda.Busqueda;
+import data.busqueda.Pair;
 import data.busqueda.filtros.Filtros;
+import data.busqueda.filtros.FiltrosFechaEnAdelante;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
+import data.empresas.Viaje;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,34 +16,29 @@ public class Main {
     }
 
     //Metodos de Seleccion de origen y destino
-    public void listarCiudades(List<Empresa> empresas){
+    public void listarCiudades(List<Empresa> empresas_totales) {
+        Set<Pair<String, String>> pares = new HashSet<>();
 
-        List<String> origen = new ArrayList<>();
-        List<String> destino = new ArrayList<>();
-
-        Date fechaActual = new Date();
         Busqueda b = new Busqueda();
-        FiltrosFecha f = new FiltrosFecha(fechaActual);
-        b.setFiltroViajes(f);
-        List<Empresa> e = b.buscar(empresas);
+        b.setFiltroViajes(new FiltrosFechaEnAdelante(new Date()));
+        List<Empresa> empresas = b.buscar(empresas_totales);
 
-        for(int i=0; i<e.size(); i++){
-            for(int j=0; j<e.get(i).getOmnibus().size(); j++){
-                for (int k=0; j<e.get(i).getOmnibus().get(j).getViajes().size(); k++){
-                    origen.add(e.get(i).getOmnibus().get(j).getViajes().get(k).getOrigen());
-                    destino.add(e.get(i).getOmnibus().get(j).getViajes().get(k).getDestino());
+        System.out.println("Ciudades posibles:");
+        for (Empresa e : empresas) {
+            for (Omnibus o : e.getOmnibus()) {
+                for (Viaje v : o.getViajes()) {
+                    Pair<String, String> par = new Pair<>(v.getOrigen(), v.getDestino());
+                    pares.add(par);
                 }
             }
         }
 
-        System.out.println("Ciudades posibles:");
-        for(int i=0; i<origen.size(); i++){
-            if (i != origen.size()-1){
-                System.out.print("Origen: " + origen.get(i) + "Destino: " + destino.get(i) +  ", ");
-            }else{
-                System.out.println("Origen: " + origen.get(i) + "Destino: " + destino.get(i));
-            }
+        // Imprimir la lista de pares
+        for (Pair<String, String> par : pares) {
+            System.out.println("Origen: " + par.getFirst() + ", Destino: " + par.getSecond());
         }
+
+        elegirCiudades();
     }
 
     public void elegirCiudades(){
@@ -83,6 +78,16 @@ public class Main {
         }
 
         return o1;
+    }
+
+    public void elegirFechas() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Elegir fecha ida: ");
+        String ida = scanner.nextLine();
+        System.out.println("Elegir fecha vuelta: ");
+        String vuelta = scanner.nextLine();
+        // String a Date?
+        // Usuario selecciona fecha sin ser necesario un listado previo. Luego se filtra.
     }
 
 
