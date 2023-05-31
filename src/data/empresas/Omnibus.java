@@ -6,24 +6,24 @@ import java.util.List;
 public class Omnibus {
 
     private String id_omnibus;
-    private int capacidad;
     private int velMax;
     private int ocupados;
 
-    private List<Viaje> viajes = new ArrayList<>();
+    private Boolean[] asientos;
+    private List<Viaje> viajes;
     private Empresa empresa;
 
     public Omnibus() {
         this.viajes = new ArrayList<>();
-        this.capacidad = 0;
+        this.asientos = new Boolean[30];
         this.velMax = 0;
         this.id_omnibus = "";
         this.ocupados = 0;
     }
 
-    public Omnibus(int cap, int velMax, String nom){
+    public Omnibus(int velMax, String nom, int cap){
         this.viajes = new ArrayList<>();
-        setCapacidad(cap);
+        this.asientos = new Boolean[cap];
         setNombre(nom);
         setVelMax(velMax);
         this.ocupados = 0;
@@ -38,11 +38,7 @@ public class Omnibus {
     }
 
     public int getCapacidad() {
-        return capacidad;
-    }
-
-    public void setCapacidad(int capacidad) {
-        this.capacidad = capacidad;
+        return asientos.length;
     }
 
     public int getVelMax() {
@@ -64,4 +60,17 @@ public class Omnibus {
     public List<Viaje> getViajes() {
         return viajes;
     }
+
+    public String ocuparAsiento(int a1){
+        String s1;
+        if(this.asientos[a1] == false){
+            this.asientos[a1] = true;
+            s1 = "Fue seleccionado con exito";
+            return s1;
+        }else{
+            s1 = "Este asiento estaba ocupado";
+            return s1;
+        }
+    }
+
 }
