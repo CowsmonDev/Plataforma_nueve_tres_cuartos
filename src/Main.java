@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import data.ListaDeViajes;
@@ -7,6 +8,7 @@ import data.busqueda.filtros.Filtros;
 import data.busqueda.Busqueda;
 import data.busqueda.filtros.Filtros;
 import data.busqueda.filtros.FiltrosFechaEnAdelante;
+import data.busqueda.filtros.FiltrosFechaExacta;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
@@ -85,15 +87,35 @@ public class Main {
         return o1;
     }
 
-    public void elegirFechas() {
+    public void elegirFechas(List<Empresa> empresas_totales) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Elegir fecha ida: ");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("Elegir fecha ida (dd/MM/yyyy): ");
         String ida = scanner.nextLine();
-        System.out.println("Elegir fecha vuelta: ");
+
+        System.out.println("Elegir fecha vuelta (dd/MM/yyyy): ");
         String vuelta = scanner.nextLine();
-        // String a Date?
-        // Usuario selecciona fecha sin ser necesario un listado previo. Luego se filtra.
+
+        //Corregir este error!!!!
+        //Date fechaIda = dateFormat.parse(ida);
+        //Date fechaVuelta = dateFormat.parse(vuelta);
+
+        Date fechaIda = new Date();
+        Date fechaVuelta = new Date();
+
+        // Forma correcta de convertir String a Date?
+
+        Busqueda b = new Busqueda();
+
+        Filtros<Viaje> f1 = new FiltrosFechaExacta(fechaIda);
+        b.setFiltroViajes(f1);
+        List<Empresa> empresasIda = b.buscar(empresas_totales);
+
+        if (!vuelta.equals("")) {
+            Filtros<Viaje> f2 = new FiltrosFechaExacta(fechaVuelta);
+            b.setFiltroViajes(f2);
+            List<Empresa> empresasVuelta = b.buscar(empresas_totales);
+        }
     }
-
-
 }
