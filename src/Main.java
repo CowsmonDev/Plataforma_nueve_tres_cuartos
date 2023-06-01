@@ -1,5 +1,6 @@
 import java.util.*;
 
+import data.ListaDeViajes;
 import data.busqueda.Busqueda;
 import data.busqueda.Pair;
 import data.busqueda.filtros.Filtros;
@@ -14,7 +15,9 @@ public class Main {
     public static void main(String[] args) {
         Busqueda b = new Busqueda();
         b.buscar(new ArrayList<Empresa>());
-
+        ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
+        System.out.println(l.toString()); //Muestra la estructura completa;
+        List<Empresa> e = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
     }
 
     //Metodos de Seleccion de origen y destino

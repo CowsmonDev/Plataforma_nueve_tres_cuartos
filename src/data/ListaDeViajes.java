@@ -25,9 +25,9 @@ public class ListaDeViajes {
     }
 
     private ListaDeViajes(){
-        ReaderViajes.FullData(this);
-        ReaderOmnibus.FullData(this);
         ReaderEmpresas.FullData(this);
+        ReaderOmnibus.FullData(this);
+        ReaderViajes.FullData(this);
     }
 
     public void addViaje(String id_omnibus, Viaje v){
@@ -47,8 +47,28 @@ public class ListaDeViajes {
     }
 
     public void addEmpresas(Empresa e){
-        empresas.add(e);
-        hashEmpresas.put(e.getIdEmpresa(), e);
+        if(!hashEmpresas.containsKey(e.getIdEmpresa())){
+            empresas.add(e);
+            hashEmpresas.put(e.getIdEmpresa(), e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lista de Viajes: \n");
+        for (Empresa e : this.empresas){
+            sb.append("Empresa:: id: ").append(e.getIdEmpresa()).append(" nombre: ").append(e.getNombre()).append("\n");
+            for (Omnibus o : e.getOmnibus()){
+                sb.append(" Omnibus:: ");
+                sb.append("id: ").append(o.getIdOmnibus()).append(" velMax: ").append(o.getVelMax()).append(" ocupados: ").append(o.getOcupados()).append("\n");
+                sb.append("    Viajes: \n");
+                for (Viaje v : o.getViajes()){
+                    sb.append("      origen: ").append(v.getOrigen()).append(" destino: ").append(v.getDestino()).append(" precio: ").append(v.getPrecio()).append("\n");
+                }
+            }
+        }
+        return sb.toString();
     }
 
     public List<Empresa> getEmpresas() {
@@ -78,7 +98,6 @@ public class ListaDeViajes {
             Omnibus o = new Omnibus(line[0],
                     Integer.parseInt(line[1]),
                     Integer.parseInt(line[2]),
-                    "Nombre: Insertar nombre en la base de datos :)",
                     null);
             viajes.addOmnibus(o, line[3]);
         }
