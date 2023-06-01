@@ -13,15 +13,11 @@ public class Omnibus {
     private List<Viaje> viajes;
     private Empresa empresa;
 
-    public Omnibus() {
-        this.viajes = new ArrayList<>();
-        this.asientos = new Boolean[30];
-        this.velMax = 0;
-        this.id_omnibus = "";
-        this.ocupados = 0;
+    public Omnibus(String id_omnibus, Empresa e) {
+        this(id_omnibus, 0, 0, "", e);
     }
 
-    public Omnibus(int velMax, String nom, int cap){
+    public Omnibus(String id_omnibus, int cap, int velMax, String nom, Empresa e){
         this.viajes = new ArrayList<>();
         this.asientos = new Boolean[cap];
         setNombre(nom);
@@ -43,6 +39,10 @@ public class Omnibus {
 
     public int getVelMax() {
         return velMax;
+    }
+
+    public String getIdOmnibus() {
+        return id_omnibus;
     }
 
     public void setVelMax(int velMax) {

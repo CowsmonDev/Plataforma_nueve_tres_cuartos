@@ -8,10 +8,9 @@ public class Viaje {
     private String destino;
     private Date fecha = new Date();
     private Omnibus omnibus;
-
     private float precio;
 
-    public Viaje(Omnibus omnibus, String origen, String destino, float precio) {
+    public Viaje(String origen, String destino, float precio, Omnibus omnibus) {
         this.omnibus = omnibus;
         this.origen = origen;
         this.destino = destino;
@@ -29,6 +28,7 @@ public class Viaje {
 
     public void setOrigen(String origen) { this.origen = origen; }
     public void setDestino(String destino) { this.destino = destino; }
+    public void setOmnibus(Omnibus omnibus) { this.omnibus = omnibus; }
     public void setPrecio(float precio) { this.precio = precio; }
 
 }

@@ -3,6 +3,8 @@ import java.util.*;
 import data.busqueda.Busqueda;
 import data.busqueda.Pair;
 import data.busqueda.filtros.Filtros;
+import data.busqueda.Busqueda;
+import data.busqueda.filtros.Filtros;
 import data.busqueda.filtros.FiltrosFechaEnAdelante;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
