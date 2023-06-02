@@ -3,13 +3,14 @@ package data.empresas;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Omnibus {
 
     private String id_omnibus;
     private int velMax;
     private int ocupados;
 
-    private Boolean[] asientos;
+    private boolean[] asientos;
     private List<Viaje> viajes;
     private Empresa empresa;
 
@@ -21,7 +22,7 @@ public class Omnibus {
         this.id_omnibus = id_omnibus;
         this.velMax = velMax;
         this.ocupados = 0;
-        this.asientos = new Boolean[asientos];
+        this.asientos = new boolean[asientos];
         this.viajes = new ArrayList<>();
         this.empresa = empresa;
     }
@@ -64,7 +65,7 @@ public class Omnibus {
 
     public String ocuparAsiento(int a1){
         String s1;
-        if(this.asientos[a1] == false){
+        if(this.asientos[a1] == false){   // true asiento ocupado / false asiento desocupado
             this.asientos[a1] = true;
             s1 = "Fue seleccionado con exito";
             return s1;
@@ -74,4 +75,26 @@ public class Omnibus {
         }
     }
 
+    public void esquemaAsiento(){
+        System.out.println("Esquema de asientos del ómnibus:");
+        for (int i = 0; i < asientos.length; i++) { //recorro la list de asientos
+            if (asientos[i] == true) {
+                System.out.printf("%2d", i + 1); // Número de asiento
+                System.out.print("[X] "); // Asiento ocupado
+            } else {
+                System.out.printf("%2d", i + 1); // Número de asiento
+                System.out.print("[ ] "); // Asiento desocupado
+            }
+
+
+            if (((i + 1) % 2 == 0)&&((i + 1) % 4 != 0)) {
+                System.out.print(" | "); // Pasillo
+            }
+
+
+            if ((i + 1) % 4 == 0) {
+                System.out.println(); // Salto de línea cada 4 asientos
+            }
+        }
+    }
 }
