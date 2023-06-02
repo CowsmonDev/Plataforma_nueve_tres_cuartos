@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -97,14 +98,14 @@ public class Main {
         System.out.println("Elegir fecha vuelta (dd/MM/yyyy): ");
         String vuelta = scanner.nextLine();
 
-        //Corregir este error!!!!
-        //Date fechaIda = dateFormat.parse(ida);
-        //Date fechaVuelta = dateFormat.parse(vuelta);
-
         Date fechaIda = new Date();
         Date fechaVuelta = new Date();
-
-        // Forma correcta de convertir String a Date?
+        try {
+            fechaIda = dateFormat.parse(ida);
+            fechaVuelta = dateFormat.parse(ida);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         Busqueda b = new Busqueda();
 
