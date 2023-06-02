@@ -1,12 +1,16 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
 import data.ListaDeViajes;
 import data.busqueda.Busqueda;
 import data.busqueda.Pair;
-import data.busqueda.filtros.Filtros;
-import data.busqueda.Busqueda;
+import data.busqueda.filtros.FiltroMenorVelMax;
 import data.busqueda.filtros.Filtros;
 import data.busqueda.filtros.FiltrosFechaEnAdelante;
 import data.busqueda.filtros.FiltrosFechaExacta;
@@ -21,7 +25,20 @@ public class Main {
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
         System.out.println(l.toString()); //Muestra la estructura completa;
         List<Empresa> e = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
+
+        //TESTEO FILTRADO DE OMNIBUS
+        FiltroMenorVelMax f1 = new FiltroMenorVelMax(30);
+        Main m1 = new Main();
+        ArrayList<Omnibus> omns = m1.posiblesOmn(e,f1);
+
+        for(Omnibus o: omns){
+            System.out.println(o.toString());
+        }
+
+
     }
+
+
 
     //Metodos de Seleccion de origen y destino
     public void listarCiudades(List<Empresa> empresas_totales) {
@@ -64,7 +81,7 @@ public class Main {
     }
 
     //funcion para filtrado de omnibuses
-    public ArrayList<Omnibus> posiblesOmn(Filtros<Omnibus> f1){
+    public ArrayList<Omnibus> posiblesOmn(List<Empresa> empresas_totales,Filtros<Omnibus> f1){
 
         //o1 sera el retorno
         ArrayList<Omnibus> o1 = new ArrayList<>();
@@ -72,11 +89,10 @@ public class Main {
         //creo una busqueda y la filtro con el parametro f1
         Busqueda b = new Busqueda();
         b.setFiltroOmnibus(f1);
-        ArrayList<Omnibus> aux = new ArrayList<>();
-        b.buscarOmnibus(aux);
+        List<Empresa> empresas = b.buscar(empresas_totales);    
 
-        if(!aux.isEmpty()){
-            for(Omnibus o: aux ){
+        for(Empresa e: empresas){
+            for(Omnibus o: e.getOmnibus() ){
                 if( o.getOcupados() == o.getCapacidad()){
                     continue;
                 }else{

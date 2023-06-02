@@ -74,4 +74,10 @@ public class Omnibus {
         }
     }
 
+    public String toString(){
+        String s1 = " IdOmnibus: " + this.getIdOmnibus() + 
+                    " Velocidad Maxima: " + this.getVelMax() + " Capacidad: " + this.getCapacidad();
+        return s1;
+    }
+
 }
