@@ -91,7 +91,7 @@ public class Sistemas {
         String resp = scanner.nextLine();
 
         List<Empresa> empresasVuelta = null;
-        if (resp == "y") {
+        if (resp.equals("y")) {
             System.out.println("Elegir fecha vuelta (dd/MM/yyyy): ");
             String vuelta = scanner.nextLine();
 

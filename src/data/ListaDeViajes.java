@@ -5,10 +5,9 @@ import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ListaDeViajes {
 
@@ -82,12 +81,20 @@ public class ListaDeViajes {
     private CSVReader ReaderViajes = new CSVReader("src/data/db/data/VIAJE.csv") {
         @Override
         protected void addData(ListaDeViajes viajes, String[] line) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date data = new Date();
+            try {
+                data = dateFormat.parse(line[2]);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             Viaje v = new Viaje(
                     line[0],
                     line[1],
                     Float.parseFloat(line[3]),
                     null
             );
+            v.setFecha(data);
             viajes.addViaje(line[4], v);
         }
     };
