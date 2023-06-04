@@ -1,11 +1,9 @@
 import java.util.List;
 
 import data.ListaDeViajes;
-import data.busqueda.Pair;
 import data.busqueda.filtros.FiltroMenorVelMax;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
-import data.empresas.Viaje;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,7 +28,7 @@ public class Main {
             }
         }
 
-        Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
+        /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
         List<Empresa> empresasIda = empresasFechas.getFirst();
         List<Empresa> empresasVuelta = empresasFechas.getSecond();
         System.out.println("Viajes ida: ");
@@ -55,6 +53,6 @@ public class Main {
                 }
             }
         }
-
+        */
     }
 }
