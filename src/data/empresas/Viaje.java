@@ -31,4 +31,9 @@ public class Viaje {
     public void setOmnibus(Omnibus omnibus) { this.omnibus = omnibus; }
     public void setPrecio(float precio) { this.precio = precio; }
 
+    public String toString() {
+        String result = ("Origen: " + this.getOrigen() + " Destino: " + this.getDestino());
+        return result;
+    }
+
 }
