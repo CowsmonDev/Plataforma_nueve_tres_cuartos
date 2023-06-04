@@ -10,7 +10,7 @@ public class Omnibus {
     private int velMax;
     private int ocupados;
 
-    private Boolean[] asientos;
+    private ArrayList<Asiento> asientos;
     private List<Viaje> viajes;
     private Empresa empresa;
 
@@ -22,7 +22,7 @@ public class Omnibus {
         this.id_omnibus = id_omnibus;
         this.velMax = velMax;
         this.ocupados = 0;
-        this.asientos = new Boolean[asientos];
+        this.asientos = new ArrayList<>(asientos);
         this.viajes = new ArrayList<>();
         this.empresa = empresa;
     }
@@ -36,7 +36,7 @@ public class Omnibus {
     }
 
     public int getCapacidad() {
-        return asientos.length;
+        return asientos.size();
     }
 
     public int getVelMax() {
@@ -85,7 +85,7 @@ public class Omnibus {
 
     public void esquemaAsiento(){
         System.out.println("Esquema de asientos del ómnibus:");
-        for (int i = 0; i < asientos.length; i++) { //recorro la list de asientos
+        for (int i = 0; i < asientos.size(); i++) { //recorro la list de asientos
             System.out.printf("%3d", i + 1); // Número de asiento
             if (asientos[i]) {
                 System.out.print("[X] "); // Asiento ocupado
