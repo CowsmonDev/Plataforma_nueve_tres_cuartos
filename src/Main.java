@@ -23,14 +23,14 @@ public class Main {
 
         }
         List<Empresa> empresas = s.posiblesOmn(e, new FiltroMenorVelMax(30));
-        //System.out.println(empresas.size());
+        System.out.println(empresas.size());
         for (Empresa emp : empresas) {
             for (Omnibus o : emp.getOmnibus()) {
                 System.out.println(o.toString());
             }
         }
 
-        Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
+        /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
         List<Empresa> empresasIda = empresasFechas.getFirst();
         List<Empresa> empresasVuelta = empresasFechas.getSecond();
         System.out.println("Viajes ida: ");
@@ -54,7 +54,7 @@ public class Main {
                     }
                 }
             }
-        }
+        }*/
 
     }
 }

@@ -1,6 +1,8 @@
 package data.empresas;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -23,6 +25,8 @@ public class Omnibus {
         this.velMax = velMax;
         this.ocupados = 0;
         this.asientos = new ArrayList<>(asientos);
+        for (int i = 0; i < asientos; i++)
+            this.asientos.add(new Asiento(i + 1));
         this.viajes = new ArrayList<>();
         this.empresa = empresa;
     }
