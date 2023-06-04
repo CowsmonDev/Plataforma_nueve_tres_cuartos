@@ -36,35 +36,40 @@ public class Busqueda {
                 if(this.filtrosEmpresas != null && !this.filtrosEmpresas.filtrar(e)){
                     continue;
                 }else{
-                    List<Omnibus> omnibus = this.buscarOmnibus(e.getOmnibus());
+                    Empresa empresa = new Empresa(e.getIdEmpresa(), e.getNombre());
+                    List<Omnibus> omnibus = this.buscarOmnibus(e.getOmnibus(), empresa);
                     if(!omnibus.isEmpty()){
-                        empresas.add(e);
+                        empresa.setOmnibus(omnibus);
+                        empresas.add(empresa);
                     }
                 }
             }
             return empresas;
     }
-    public List<Omnibus> buscarOmnibus(List<Omnibus> omnibus_a_filtrar){
+    private List<Omnibus> buscarOmnibus(List<Omnibus> omnibus_a_filtrar, Empresa empresa){
         List<Omnibus> omnibus = new ArrayList<>();
         for (Omnibus o : omnibus_a_filtrar){
             if(this.filtrosOmnibus != null && !this.filtrosOmnibus.filtrar(o)){
                 continue;
             }else{
-                List<Viaje> viajes = buscarViajes(o.getViajes());
+                Omnibus omnibus_nuevo = new Omnibus(o.getIdOmnibus(), o.getVelMax(), o.getCapacidad(), empresa);
+                List<Viaje> viajes = buscarViajes(o.getViajes(), omnibus_nuevo);
                 if(!viajes.isEmpty()){
-                    omnibus.add(o);
+                    omnibus_nuevo.setViajes(viajes);
+                    omnibus.add(omnibus_nuevo);
                 }
             }
         }
         return omnibus;
     }
-    private List<Viaje> buscarViajes(List<Viaje> viajes_a_filtrar){
+    private List<Viaje> buscarViajes(List<Viaje> viajes_a_filtrar, Omnibus omnibus){
         List<Viaje> viajes = new ArrayList<>();
         if (this.filtrosViajes == null)
             return viajes_a_filtrar;
         for(Viaje v : viajes_a_filtrar){
             if(this.filtrosViajes.filtrar(v)){
-                viajes.add(v);
+                Viaje viaje = new Viaje(v.getOrigen(), v.getDestino(), v.getPrecio(), omnibus);
+                viajes.add(viaje);
             }
         }
 

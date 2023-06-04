@@ -12,7 +12,6 @@ public class FiltroMenorVelMax implements Filtros<Omnibus> {
 
     @Override
     public boolean filtrar(Omnibus element) {
-
         return element.getVelMax() < this.vel;
     }
 }

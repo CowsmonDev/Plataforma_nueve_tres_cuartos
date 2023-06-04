@@ -59,9 +59,11 @@ public class Omnibus {
         this.id_omnibus = id_omnibus;
     }
 
-    public List<Viaje> getViajes() {
-        return viajes;
-    }
+    public List<Viaje> getViajes() { return viajes; }
+
+    public void setViajes(List<Viaje> viajes) { this.viajes = viajes; }
+
+    public Empresa getEmpresa() { return empresa; }
 
     public String ocuparAsiento(int a1){
         String s1;

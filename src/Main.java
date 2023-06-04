@@ -19,11 +19,11 @@ public class Main {
         //s.elegirCiudades();
         for (Empresa emp : e) {
             for (Omnibus o : emp.getOmnibus()) {
-                System.out.println(o.toString());
+                //System.out.println(o.toString());
             }
         }
         List<Empresa> empresas = s.posiblesOmn(e, new FiltroMenorVelMax(30));
-        System.out.println(empresas.size());
+        //System.out.println(empresas.size());
         for (Empresa emp : empresas) {
             for (Omnibus o : emp.getOmnibus()) {
                 System.out.println(o.toString());
