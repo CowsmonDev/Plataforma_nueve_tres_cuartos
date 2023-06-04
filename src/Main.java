@@ -1,11 +1,11 @@
+import java.util.List;
+
 import data.ListaDeViajes;
 import data.busqueda.Pair;
 import data.busqueda.filtros.FiltroMenorVelMax;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
-
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {

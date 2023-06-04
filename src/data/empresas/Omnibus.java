@@ -28,11 +28,13 @@ public class Omnibus {
     }
 
     public int getOcupados() {
+        this.ocupados = 0;
+        for(Asiento a1: asientos){
+            if(a1.getOcupacion()){
+                this.ocupados = this.ocupados + 1;
+            }
+        }
         return ocupados;
-    }
-
-    public void setOcupados(int ocupados) {
-        this.ocupados = ocupados;
     }
 
     public int getCapacidad() {
