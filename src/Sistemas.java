@@ -66,7 +66,7 @@ public class Sistemas {
         return empresas;
     }
 
-
+    // Funcion de seleccion de fechas de ida y vuelta.
     public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales) {
         Scanner scanner = new Scanner(System.in);
 
