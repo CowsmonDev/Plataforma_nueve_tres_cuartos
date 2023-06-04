@@ -67,8 +67,8 @@ public class Omnibus {
 
     public String ocuparAsiento(int a1){
         String s1;
-        if(!this.asientos[a1]){   // true asiento ocupado / false asiento desocupado
-            this.asientos[a1] = true;
+        if(!this.asientos.get(a1).getOcupacion()){   // true asiento ocupado / false asiento desocupado
+            this.asientos.get(a1).setOcupacion(true);
             s1 = "Fue seleccionado con exito";
             return s1;
         }else{
@@ -87,7 +87,7 @@ public class Omnibus {
         System.out.println("Esquema de asientos del ómnibus:");
         for (int i = 0; i < asientos.size(); i++) { //recorro la list de asientos
             System.out.printf("%3d", i + 1); // Número de asiento
-            if (asientos[i]) {
+            if (asientos.get(i).getOcupacion()) {
                 System.out.print("[X] "); // Asiento ocupado
             } else {
                 System.out.print("[ ] "); // Asiento desocupado

@@ -149,21 +149,16 @@ public class Sistemas {
     }
 
 
-    public void elegirFechas(List<Empresa> empresas_totales) {
+    public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales) {
         Scanner scanner = new Scanner(System.in);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Elegir fecha ida (dd/MM/yyyy): ");
         String ida = scanner.nextLine();
 
-        System.out.println("Elegir fecha vuelta (dd/MM/yyyy): ");
-        String vuelta = scanner.nextLine();
-
         Date fechaIda = new Date();
-        Date fechaVuelta = new Date();
         try {
             fechaIda = dateFormat.parse(ida);
-            fechaVuelta = dateFormat.parse(ida);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -174,10 +169,26 @@ public class Sistemas {
         b.setFiltroViajes(f1);
         List<Empresa> empresasIda = b.buscar(empresas_totales);
 
-        if (!vuelta.equals("")) {
+        System.out.println("Desea elegir fecha de vuelta? (y/n): ");
+        String resp = scanner.nextLine();
+
+        List<Empresa> empresasVuelta = null;
+        if (resp.equals("y")) {
+            System.out.println("Elegir fecha vuelta (dd/MM/yyyy): ");
+            String vuelta = scanner.nextLine();
+
+            Date fechaVuelta = new Date();
+            try {
+                fechaVuelta = dateFormat.parse(vuelta);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
             Filtros<Viaje> f2 = new FiltrosFechaExacta(fechaVuelta);
             b.setFiltroViajes(f2);
-            List<Empresa> empresasVuelta = b.buscar(empresas_totales);
+            empresasVuelta = b.buscar(empresas_totales);
         }
+        Pair<List<Empresa>, List<Empresa>> result = new Pair<>(empresasIda, empresasVuelta);
+        return result;
     }
 }
