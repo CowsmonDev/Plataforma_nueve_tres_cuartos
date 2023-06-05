@@ -1,18 +1,13 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import data.ListaDeViajes;
-import data.busqueda.Busqueda;
-import data.busqueda.Pair;
-import data.busqueda.filtros.FiltroMenorVelMax;
+import data.busqueda.filtros.FiltroCapacidadMenor;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
-import data.empresas.Viaje;
 
 public class Main {
     public static void main(String[] args) {
+
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
         List<Empresa> e = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
 
@@ -23,17 +18,29 @@ public class Main {
             for (Omnibus o : emp.getOmnibus()) {
                 //System.out.println(o.toString());
             }
+
         }
-        List<Empresa> empresas = s.posiblesOmn(e, new FiltroMenorVelMax(30));
-        //System.out.println(empresas.size());
+
+        //Falta arreglar filtro por string
+        List<Empresa> empresas = s.posiblesOmn(e, new FiltroCapacidadMenor(100));
+        /*
         for (Empresa emp : empresas) {
             for (Omnibus o : emp.getOmnibus()) {
                 System.out.println(o.toString());
             }
-        }
+        }*/
 
-        // Testeo seleccion de fechas ida y vuelta:
-        Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
+        Omnibus omnAux = empresas.get(0).getOmnibus().get(0);
+        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+        for(int i=0; i<omnAux.getCapacidad(); i++){
+            omnAux.ocuparAsiento(i);
+        }
+        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+
+        /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
+
         List<Empresa> empresasIda = empresasFechas.getFirst();
         List<Empresa> empresasVuelta = empresasFechas.getSecond();
         System.out.println("Viajes ida: ");
@@ -54,6 +61,7 @@ public class Main {
                     }
                 }
             }
-        }
+        }*/
+
     }
 }

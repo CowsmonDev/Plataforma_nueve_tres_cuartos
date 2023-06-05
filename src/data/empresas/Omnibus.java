@@ -10,7 +10,7 @@ public class Omnibus {
     private int velMax;
     private int ocupados;
 
-    private Boolean[] asientos;
+    private ArrayList<Asiento> asientos;
     private List<Viaje> viajes;
     private Empresa empresa;
 
@@ -22,21 +22,25 @@ public class Omnibus {
         this.id_omnibus = id_omnibus;
         this.velMax = velMax;
         this.ocupados = 0;
-        this.asientos = new Boolean[asientos];
+        this.asientos = new ArrayList<>(asientos);
+        for (int i = 0; i < asientos; i++)
+            this.asientos.add(new Asiento(i + 1));
         this.viajes = new ArrayList<>();
         this.empresa = empresa;
     }
 
     public int getOcupados() {
+        this.ocupados = 0;
+        for(Asiento a1: asientos){
+            if(a1.getOcupacion()){
+                this.ocupados = this.ocupados + 1;
+            }
+        }
         return ocupados;
     }
 
-    public void setOcupados(int ocupados) {
-        this.ocupados = ocupados;
-    }
-
     public int getCapacidad() {
-        return asientos.length;
+        return asientos.size();
     }
 
     public int getVelMax() {
@@ -67,8 +71,8 @@ public class Omnibus {
 
     public String ocuparAsiento(int a1){
         String s1;
-        if(!this.asientos[a1]){   // true asiento ocupado / false asiento desocupado
-            this.asientos[a1] = true;
+        if(!this.asientos.get(a1).getOcupacion()){   // true asiento ocupado / false asiento desocupado
+            this.asientos.get(a1).setOcupacion(true);
             s1 = "Fue seleccionado con exito";
             return s1;
         }else{
@@ -85,9 +89,9 @@ public class Omnibus {
 
     public void esquemaAsiento(){
         System.out.println("Esquema de asientos del ómnibus:");
-        for (int i = 0; i < asientos.length; i++) { //recorro la list de asientos
+        for (int i = 0; i < asientos.size(); i++) { //recorro la list de asientos
             System.out.printf("%3d", i + 1); // Número de asiento
-            if (asientos[i]) {
+            if (asientos.get(i).getOcupacion()) {
                 System.out.print("[X] "); // Asiento ocupado
             } else {
                 System.out.print("[ ] "); // Asiento desocupado
