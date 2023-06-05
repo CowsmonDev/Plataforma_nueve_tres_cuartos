@@ -1,7 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import data.ListaDeViajes;
+import data.Tarjeta;
+import data.Usuario;
+import data.busqueda.filtros.FiltroCapacidadMenor;
+import data.empresas.Asiento;
+
 import java.util.List;
 
 import data.ListaDeViajes;
 import data.busqueda.filtros.FiltroCapacidadMenor;
+
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 
@@ -29,6 +39,31 @@ public class Main {
                 System.out.println(o.toString());
             }
         }*/
+/*
+        Omnibus omnAux = empresas.get(0).getOmnibus().get(0);
+        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+        /*for(int i=0; i<omnAux.getCapacidad(); i++){
+            omnAux.ocuparAsiento(i);
+        }*/
+
+        /*Tarjeta t = new Tarjeta(122,"Galicia","Visa");
+        Usuario yo = new Usuario("Conrado", "Pino", 43568131, t);
+        s.AgregarCliente(yo);
+        yo.cargarSaldoTarjeta(1000000);
+        ArrayList<Asiento> listaAsientos = s.seleccionarAsientos(omnAux);
+        boolean b = s.realizarCompra(yo, omnAux.getViajes().get(0), listaAsientos);
+        if (b)
+        {
+            for (Asiento a: listaAsientos)
+            {
+                omnAux.ocuparAsiento(a.getNroAsiento());
+            }
+        }
+        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+        omnAux.esquemaAsiento();*/
+
 
         Omnibus omnAux = empresas.get(0).getOmnibus().get(0);
         System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
@@ -38,6 +73,7 @@ public class Main {
         }
         System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
         System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+
 
         /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
 

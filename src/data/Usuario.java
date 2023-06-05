@@ -1,5 +1,11 @@
 package data;
 
+
+import data.empresas.Asiento;
+import data.empresas.Viaje;
+
+import java.util.ArrayList;
+
 import java.util.Objects;
 
 public class Usuario {
@@ -31,6 +37,19 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
+
+
+    public void cargarSaldoTarjeta(double i)
+    {
+        this.tarjeta.recargarTarjeta(i);
+    }
+
+    public void pagar(Viaje v, int i)
+    {
+        this.getTarjeta().calcularNuevoSaldo(v,i);
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
