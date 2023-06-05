@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 import data.ListaDeViajes;
 import data.Tarjeta;
@@ -12,92 +13,51 @@ import java.util.List;
 import data.ListaDeViajes;
 import data.busqueda.filtros.FiltroCapacidadMenor;
 
+import data.busqueda.Busqueda;
+import data.busqueda.Pair;
+import data.busqueda.filtros.FiltroCiudadDestino;
+import data.busqueda.filtros.FiltroCiudadOrigen;
+import data.busqueda.filtros.FiltrosAND;
+import data.busqueda.filtros.FiltrosFechaEnAdelante;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
+import data.empresas.Viaje;
 
 public class Main {
     public static void main(String[] args) {
 
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
-        List<Empresa> e = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
+        List<Empresa> empresas_totales = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
+        Busqueda b = new Busqueda(); //Crea una nueva busqueda;
+        b.setFiltroViajes(new FiltrosFechaEnAdelante(new Date()));
+        empresas_totales = b.buscar(empresas_totales);
 
         Sistemas s = new Sistemas();
-        //s.listarCiudades(e);
-        //s.elegirCiudades();
-        for (Empresa emp : e) {
-            for (Omnibus o : emp.getOmnibus()) {
-                //System.out.println(o.toString());
-            }
 
-        }
+        System.out.println("Bienvenido al sistema de compra de pasajes");
+        System.out.println("Por favor, elija una ciudad de origen y una de destino");
+        Set<Pair<String, String>> ciudades = s.listarCiudades(empresas_totales);
+        //Pair<String, String> ciudad = s.elegirCiudades(ciudades);
+        Pair<String, String> ciudad = new Pair<>("Tandil", "Necochea");
 
-        //Falta arreglar filtro por string
-        List<Empresa> empresas = s.posiblesOmn(e, new FiltroCapacidadMenor(100));
-        /*
-        for (Empresa emp : empresas) {
-            for (Omnibus o : emp.getOmnibus()) {
-                System.out.println(o.toString());
-            }
-        }*/
-/*
-        Omnibus omnAux = empresas.get(0).getOmnibus().get(0);
-        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
-        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
-        /*for(int i=0; i<omnAux.getCapacidad(); i++){
-            omnAux.ocuparAsiento(i);
-        }*/
+        b.setFiltroEmpresa(null).setFiltroOmnibus(null).setFiltroViajes(null);
+        b.setFiltroViajes(new FiltrosAND<Viaje>(new FiltroCiudadOrigen(ciudad.getFirst()), new FiltroCiudadDestino(ciudad.getSecond())));
+        empresas_totales = b.buscar(empresas_totales);
+        System.out.println(empresas_totales.size());
 
-        /*Tarjeta t = new Tarjeta(122,"Galicia","Visa");
-        Usuario yo = new Usuario("Conrado", "Pino", 43568131, t);
-        s.AgregarCliente(yo);
-        yo.cargarSaldoTarjeta(1000000);
-        ArrayList<Asiento> listaAsientos = s.seleccionarAsientos(omnAux);
-        boolean b = s.realizarCompra(yo, omnAux.getViajes().get(0), listaAsientos);
-        if (b)
-        {
-            for (Asiento a: listaAsientos)
-            {
-                omnAux.ocuparAsiento(a.getNroAsiento());
-            }
-        }
-        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
-        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
-        omnAux.esquemaAsiento();*/
+        Scanner sc = new Scanner(System.in);
+        // Seleccio fecha de viaje
+        Pair<List<Empresa>, List<Empresa>> viajes = s.elegirFechas(empresas_totales, sc);
+        System.out.println(viajes.getFirst().size());
+        List<Empresa> viajeIda = viajes.getFirst();
+        List<Empresa> viajeVuelta = viajes.getSecond();
 
+        //Seleccion de Omnibus
+        viajeIda = s.posiblesOmn(viajeIda, null);
+        System.out.println("Selecciona el Viaje de Ida");
+        Viaje viajeFinal = s.elegirViaje(viajeIda, sc);
 
-        Omnibus omnAux = empresas.get(0).getOmnibus().get(0);
-        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
-        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
-        for(int i=0; i<omnAux.getCapacidad(); i++){
-            omnAux.ocuparAsiento(i);
-        }
-        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
-        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
-
-
-        /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
-
-        List<Empresa> empresasIda = empresasFechas.getFirst();
-        List<Empresa> empresasVuelta = empresasFechas.getSecond();
-        System.out.println("Viajes ida: ");
-
-        for (Empresa emp : empresasIda) {
-            for (Omnibus o : emp.getOmnibus()) {
-                for (Viaje v : o.getViajes()) {
-                    System.out.println(v.toString());
-                }
-            }
-        }
-        if (empresasVuelta != null) {
-            System.out.println("Viajes vuelta: ");
-            for (Empresa emp : empresasVuelta) {
-                for (Omnibus o : emp.getOmnibus()) {
-                    for (Viaje v : o.getViajes()) {
-                        System.out.println(v.toString());
-                    }
-                }
-            }
-        }*/
-
+        Omnibus omnibusIda = viajeFinal.getOmnibus();
+        s.seleccionarAsientos(omnibusIda, sc);
     }
 }

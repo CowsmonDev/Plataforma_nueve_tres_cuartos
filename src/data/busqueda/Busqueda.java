@@ -64,15 +64,15 @@ public class Busqueda {
     }
     private List<Viaje> buscarViajes(List<Viaje> viajes_a_filtrar, Omnibus omnibus){
         List<Viaje> viajes = new ArrayList<>();
-        if (this.filtrosViajes == null)
-            return viajes_a_filtrar;
         for(Viaje v : viajes_a_filtrar){
-            if(this.filtrosViajes.filtrar(v)){
-                Viaje viaje = new Viaje(v.getOrigen(), v.getDestino(), v.getPrecio(), omnibus);
+            Viaje viaje = new Viaje(v.getOrigen(), v.getDestino(), v.getPrecio(), omnibus);
+            viaje.setFecha(v.getFecha());
+            if(this.filtrosViajes == null){
+                viajes.add(viaje);
+            }else if(this.filtrosViajes.filtrar(v)){
                 viajes.add(viaje);
             }
         }
-
         return viajes;
     }
 }

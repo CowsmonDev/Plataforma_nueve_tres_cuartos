@@ -15,6 +15,6 @@ public class FiltrosFechaEnAdelante implements Filtros<Viaje>{
 
     @Override
     public boolean filtrar(Viaje element) {
-        return element.getFecha().before(fecha);
+        return element.getFecha().after(fecha);
     }
 }

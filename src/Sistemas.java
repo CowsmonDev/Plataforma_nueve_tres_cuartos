@@ -1,11 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 import com.sun.security.auth.UnixNumericUserPrincipal;
 
@@ -34,7 +29,7 @@ public class Sistemas {
     }
 
     //Metodos de Seleccion de origen y destino
-    public void listarCiudades(List<Empresa> empresas_totales) {
+    public Set<Pair<String, String>> listarCiudades(List<Empresa> empresas_totales) {
         Set<Pair<String, String>> pares = new HashSet<>();
 
         Busqueda b = new Busqueda();
@@ -55,21 +50,19 @@ public class Sistemas {
         for (Pair<String, String> par : pares) {
             System.out.println("Origen: " + par.getFirst() + ", Destino: " + par.getSecond());
         }
-
+        return pares;
     }
 
-    public void elegirCiudades(){
+    public Pair<String, String> elegirCiudades(Set<Pair<String, String>> ciudades){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Elegir ciudad origen: ");
         String origen = scanner.nextLine();
         System.out.println("Elegir ciudad destino");
         String destino = scanner.nextLine();
 
-        //Alguna forma de almancenar origen y destino tiene que haber
-        //this.origen = origen;
-        //this.destino = destino;
-
+        Pair<String, String> ciudad = new Pair<>(origen, destino);
         scanner.close();
+        return ciudad;
     }
     
     //funcion para filtrado de omnibuses
@@ -77,32 +70,48 @@ public class Sistemas {
 
         //creo una busqueda y la filtro con el parametro f1
         Busqueda b = new Busqueda();
-        b.setFiltroOmnibus(new FiltrosAND<>(f1, new FiltroNot<>(new FiltroLleno())));
+        f1 = (f1 != null)? new FiltrosAND<>(f1, new FiltroNot<>(new FiltroLleno()))
+                : new FiltroNot<>(new FiltroLleno());
+
+        b.setFiltroOmnibus(f1);
         List<Empresa> empresas = b.buscar(empresas_totales);
 
         return empresas;
     }
 
-    public ArrayList<Asiento> seleccionarAsientos(Omnibus o)
-
-    {
-        Scanner scanner = new Scanner(System.in);
+    public Viaje elegirViaje(List<Empresa> empresas_totales, Scanner sc){
+        Map<Integer, Viaje> viaje = new HashMap<>();
+        Integer i = 0;
+        for (Empresa e : empresas_totales){
+            for (Omnibus o : e.getOmnibus()){
+                for (Viaje v : o.getViajes()){
+                    System.out.println(i + " - " + v.toString());
+                    viaje.put(i, v);
+                    i++;
+                }
+            }
+        }
+        //int viajeElegido = sc.nextInt();
+        Integer viajeElegido = 0;
+        while (!viaje.containsKey(viajeElegido)){
+            System.out.println("Viaje no valido, ingrese otro");
+            viajeElegido = sc.nextInt();
+        }
+        return viaje.get(viajeElegido);
+    }
+    public ArrayList<Asiento> seleccionarAsientos(Omnibus o, Scanner scanner) {
         o.esquemaAsiento();
         ArrayList<Asiento> asientosSeleccionados = new ArrayList<>();
-        boolean b = true;
-        while (b)
-        {
+        while (true){
             System.out.println(System.lineSeparator() + "Ingrese el asiento que quiera seleccionar.");
             int i = Integer.parseInt(scanner.nextLine());
             asientosSeleccionados.add(new Asiento(i));
             System.out.println("Desea seleccionar otro asiento?" + System.lineSeparator() + "1 = SI" + System.lineSeparator() + "0 = NO" );
             i = Integer.parseInt(scanner.nextLine());
-            if (i == 1)
-                b = true;
-            else b= false;
-
+            if(i != 1){
+                return asientosSeleccionados;
+            }
         }
-        return asientosSeleccionados;
     }
 
     private Usuario clienteCoincidiente(int DNI)
@@ -183,12 +192,12 @@ public class Sistemas {
 
     }
 
-    public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales) {
-        Scanner scanner = new Scanner(System.in);
+    public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales, Scanner scanner) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Elegir fecha ida (dd/MM/yyyy): ");
-        String ida = scanner.nextLine();
+        //String ida = scanner.nextLine();
+        String ida = "26/07/2023";
 
         Date fechaIda = new Date();
         try {
@@ -204,7 +213,8 @@ public class Sistemas {
         List<Empresa> empresasIda = b.buscar(empresas_totales);
 
         System.out.println("Desea elegir fecha de vuelta? (y/n): ");
-        String resp = scanner.nextLine();
+        //String resp = scanner.nextLine();
+        String resp = "n";
 
         List<Empresa> empresasVuelta = null;
         if (resp.equals("y")) {
