@@ -1,9 +1,11 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import data.ListaDeViajes;
 import data.Tarjeta;
 import data.Usuario;
 import data.busqueda.filtros.FiltroCapacidadMenor;
+import data.empresas.Asiento;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
@@ -38,13 +40,24 @@ public class Main {
         /*for(int i=0; i<omnAux.getCapacidad(); i++){
             omnAux.ocuparAsiento(i);
         }*/
-        /*Tarjeta t = new Tarjeta(122,"Galicia","Visa");
+
+        Tarjeta t = new Tarjeta(122,"Galicia","Visa");
         Usuario yo = new Usuario("Conrado", "Pino", 43568131, t);
+        s.AgregarCliente(yo);
         yo.cargarSaldoTarjeta(1000000);
-        s.realizarCompra(yo,omnAux.getViajes().get(0),s.seleccionarAsientos(omnAux));
+        ArrayList<Asiento> listaAsientos = s.seleccionarAsientos(omnAux);
+        boolean b = s.realizarCompra(yo, omnAux.getViajes().get(0), listaAsientos);
+        if (b)
+        {
+            for (Asiento a: listaAsientos)
+            {
+                omnAux.ocuparAsiento(a.getNroAsiento());
+            }
+        }
         System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
         System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
-        */
+        omnAux.esquemaAsiento();
+
 
         /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
         List<Empresa> empresasIda = empresasFechas.getFirst();

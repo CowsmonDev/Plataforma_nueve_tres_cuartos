@@ -71,14 +71,19 @@ public class Omnibus {
 
     public String ocuparAsiento(int a1){
         String s1;
-        if(!this.asientos.get(a1).getOcupacion()){   // true asiento ocupado / false asiento desocupado
-            this.asientos.get(a1).setOcupacion(true);
+        if(!this.asientos.get(a1-1).getOcupacion()){   // true asiento ocupado / false asiento desocupado
+            this.asientos.get(a1-1).setOcupacion(true);
             s1 = "Fue seleccionado con exito";
             return s1;
         }else{
             s1 = "Este asiento estaba ocupado";
             return s1;
         }
+    }
+
+    public void desocuparAsiento(int a1)
+    {
+            this.asientos.get(a1 - 1).setOcupacion(false);
     }
 
     public String toString(){

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import com.sun.security.auth.UnixNumericUserPrincipal;
 import data.Tarjeta;
 import data.Usuario;
 import data.busqueda.Busqueda;
@@ -23,8 +24,12 @@ import data.empresas.Omnibus;
 import data.empresas.Viaje;
 public class Sistemas {
 
-    private ArrayList<Usuario> clientes;
+    private ArrayList<Usuario> clientes = new ArrayList<>();
 
+    public void AgregarCliente(Usuario cliente)
+    {
+        this.clientes.add(cliente);
+    }
     //Metodos de Seleccion de origen y destino
     public void listarCiudades(List<Empresa> empresas_totales) {
         Set<Pair<String, String>> pares = new HashSet<>();
@@ -80,12 +85,11 @@ public class Sistemas {
         Scanner scanner = new Scanner(System.in);
         o.esquemaAsiento();
         ArrayList<Asiento> asientosSeleccionados = new ArrayList<>();
-        System.out.println(System.lineSeparator() + "Ingrese el asiento que quiera seleccionar.");
         boolean b = true;
         while (b)
         {
+            System.out.println(System.lineSeparator() + "Ingrese el asiento que quiera seleccionar.");
             int i = Integer.parseInt(scanner.nextLine());
-            o.ocuparAsiento(i);
             asientosSeleccionados.add(new Asiento(i));
             System.out.println("Desea seleccionar otro asiento?" + System.lineSeparator() + "1 = SI" + System.lineSeparator() + "0 = NO" );
             i = Integer.parseInt(scanner.nextLine());
@@ -94,15 +98,6 @@ public class Sistemas {
             else b= false;
         }
         return asientosSeleccionados;
-    }
-
-    private boolean estaTarjetaRegistrada(Tarjeta t)
-    {
-        for (Usuario cliente: clientes) {
-            if (cliente.getTarjeta().equals(t))
-                return true;
-        }
-        return false;
     }
 
     private Usuario clienteCoincidiente(int DNI)
@@ -127,14 +122,12 @@ public class Sistemas {
         return v.getPrecio() * i;
     }
 
-    public void realizarCompra(Usuario pasajero,Viaje v, ArrayList<Asiento> asientosSeleccionados)
+    public boolean realizarCompra(Usuario pasajero,Viaje v, ArrayList<Asiento> asientosSeleccionados)
     {
         Scanner scanner = new Scanner(System.in);
-        Tarjeta t = null;
+        Tarjeta t;
         if (pasajero.getTarjeta() != null)
-        {
             t = pasajero.getTarjeta();
-        }
         else
         {
             System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
@@ -142,6 +135,7 @@ public class Sistemas {
             String bncoEmisor = scanner.nextLine();
             String marcaTarjeta = scanner.nextLine();
             t = new Tarjeta(nroTarjeta,bncoEmisor,marcaTarjeta);
+
         }
         if (asientosSeleccionados.size() == 1)
             asientosSeleccionados.get(0).setPasajero(pasajero);
@@ -155,24 +149,29 @@ public class Sistemas {
                 }
                 else
                 {
-                    System.out.println("Ingrese nombre y apellido para el pasajero del asiento" + i);
+                    System.out.println("Ingrese nombre y apellido para el pasajero del asiento: " + asientosSeleccionados.get(i).getNroAsiento() + System.lineSeparator());
                     System.out.println("Nombre:");
                     String nombre = scanner.nextLine();
                     System.out.println("Apellido:");
                     String apellido = scanner.nextLine();
                     Usuario u = new Usuario(nombre,apellido,DNI,null);
+                    asientosSeleccionados.get(i).setPasajero(u);
                 }
             }
         }
         System.out.println("Resumen de compra: " + System.lineSeparator());
         System.out.println("Asientos seleccionados :");
         listarAsientos(asientosSeleccionados);
-        System.out.println("Nuevo saldo de la tarjeta" + (pasajero.getTarjeta().getSaldo() - getMontoAPagar(v,asientosSeleccionados.size())));
+        System.out.println("Nuevo saldo de la tarjeta" + (t.getSaldo() - getMontoAPagar(v,asientosSeleccionados.size())));
         System.out.println("Desea confirmar la compra?");
         System.out.println("1= Sí; 0=No");
         int i = Integer.parseInt(scanner.nextLine());
-        if (i == 1)
-            pasajero.pagar(v,asientosSeleccionados.size());
+        if (i == 1) {
+            pasajero.pagar(v, asientosSeleccionados.size());
+            // Metodo a implementar en siguientes sprints.
+            return true;
+        }
+        else return false;
     }
 
 
