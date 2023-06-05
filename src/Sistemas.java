@@ -11,11 +11,16 @@ import data.Tarjeta;
 import data.Usuario;
 import data.busqueda.Busqueda;
 import data.busqueda.Pair;
-import data.busqueda.filtros.*;
+import data.busqueda.filtros.FiltroLleno;
+import data.busqueda.filtros.FiltroNot;
+import data.busqueda.filtros.Filtros;
+import data.busqueda.filtros.FiltrosAND;
+import data.busqueda.filtros.FiltrosFechaEnAdelante;
+import data.busqueda.filtros.FiltrosFechaExacta;
+import data.empresas.Asiento;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
-import data.empresas.Asiento;
 public class Sistemas {
 
     private ArrayList<Usuario> clientes;
@@ -58,7 +63,7 @@ public class Sistemas {
 
         scanner.close();
     }
-
+    
     //funcion para filtrado de omnibuses
     public List<Empresa> posiblesOmn(List<Empresa> empresas_totales, Filtros<Omnibus> f1){
 

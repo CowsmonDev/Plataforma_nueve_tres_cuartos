@@ -1,7 +1,7 @@
 import java.util.List;
 
 import data.ListaDeViajes;
-import data.busqueda.filtros.FiltroMenorVelMax;
+import data.busqueda.filtros.FiltroCapacidadMenor;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 
@@ -20,13 +20,25 @@ public class Main {
             }
 
         }
-        List<Empresa> empresas = s.posiblesOmn(e, new FiltroMenorVelMax(30));
-        //System.out.println(empresas.size());
+
+        //Falta arreglar filtro por string
+        List<Empresa> empresas = s.posiblesOmn(e, new FiltroCapacidadMenor(100));
+        /*
         for (Empresa emp : empresas) {
             for (Omnibus o : emp.getOmnibus()) {
                 System.out.println(o.toString());
             }
+        }*/
+
+        Omnibus omnAux = empresas.get(0).getOmnibus().get(0);
+        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+        for(int i=0; i<omnAux.getCapacidad(); i++){
+            omnAux.ocuparAsiento(i);
         }
+        System.out.println("Asientos Ocupados: " + omnAux.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
+
 
         /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
         List<Empresa> empresasIda = empresasFechas.getFirst();
@@ -52,7 +64,7 @@ public class Main {
                     }
                 }
             }
-        }
-        */
+        }*/
+
     }
 }
