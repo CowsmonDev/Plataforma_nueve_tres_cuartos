@@ -75,6 +75,7 @@ public class Sistemas {
         return empresas;
     }
 
+
     public ArrayList<Integer> seleccionarAsientos(Omnibus o)
     {
         Scanner scanner = new Scanner(System.in);
@@ -152,7 +153,6 @@ public class Sistemas {
         System.out.println("S= Sí; N=No");
         int i = Integer.parseInt(scanner.nextLine());
     }
-
 
     public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales) {
         Scanner scanner = new Scanner(System.in);
