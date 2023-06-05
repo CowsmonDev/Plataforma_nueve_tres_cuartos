@@ -75,17 +75,23 @@ public class Sistemas {
         return empresas;
     }
 
-    public ArrayList<Integer> seleccionarAsientos(Omnibus o)
+    public ArrayList<Asiento> seleccionarAsientos(Omnibus o)
     {
         Scanner scanner = new Scanner(System.in);
         o.esquemaAsiento();
-        ArrayList<Integer> asientosSeleccionados = null;
-        System.out.println("Ingrese los asientos que quiera seleccionar. Cuando quiera terminar con la seleccion precione X");
-        while (!scanner.nextLine().equals("X"))
+        ArrayList<Asiento> asientosSeleccionados = new ArrayList<>();
+        System.out.println(System.lineSeparator() + "Ingrese el asiento que quiera seleccionar.");
+        boolean b = true;
+        while (b)
         {
             int i = Integer.parseInt(scanner.nextLine());
             o.ocuparAsiento(i);
-            asientosSeleccionados.add(i);
+            asientosSeleccionados.add(new Asiento(i));
+            System.out.println("Desea seleccionar otro asiento?" + System.lineSeparator() + "1 = SI" + System.lineSeparator() + "0 = NO" );
+            i = Integer.parseInt(scanner.nextLine());
+            if (i == 1)
+                b = true;
+            else b= false;
         }
         return asientosSeleccionados;
     }
@@ -106,6 +112,19 @@ public class Sistemas {
                 return cliente;
         }
         return null;
+    }
+
+    private void listarAsientos(ArrayList<Asiento> asientosSeleccionados)
+    {
+        for (Asiento a: asientosSeleccionados)
+        {
+            System.out.println(a.getNroAsiento());
+        }
+    }
+
+    private double getMontoAPagar(Viaje v, int i)
+    {
+        return v.getPrecio() * i;
     }
 
     public void realizarCompra(Usuario pasajero,Viaje v, ArrayList<Asiento> asientosSeleccionados)
@@ -145,12 +164,15 @@ public class Sistemas {
                 }
             }
         }
-        //System.out.println("El nuevo saldo de la tarjeta es" +
-        // El metodo calcularNuevoSaldo se implementara en los proximos sprints.
-        // /*pasajero.getTarjeta().calcularNuevoSaldo(Viaje v,ArrayList<Asiento> asientosSeleccionados)*/);
+        System.out.println("Resumen de compra: " + System.lineSeparator());
+        System.out.println("Asientos seleccionados :");
+        listarAsientos(asientosSeleccionados);
+        System.out.println("Nuevo saldo de la tarjeta" + (pasajero.getTarjeta().getSaldo() - getMontoAPagar(v,asientosSeleccionados.size())));
         System.out.println("Desea confirmar la compra?");
-        System.out.println("S= Sí; N=No");
+        System.out.println("1= Sí; 0=No");
         int i = Integer.parseInt(scanner.nextLine());
+        if (i == 1)
+            pasajero.pagar(v,asientosSeleccionados.size());
     }
 
 
