@@ -1,13 +1,17 @@
 package data;
 
+
 import data.empresas.Viaje;
+
 
 public class Tarjeta {
 
     private int nroTarjeta;
     private String banco;
     private String marcaTarjeta;
+
     private double saldo;
+
     public Tarjeta(int nroTarjeta,String banco,String marcaTarjeta) {
         this.nroTarjeta = nroTarjeta;
         this.banco = banco;
@@ -27,6 +31,7 @@ public class Tarjeta {
         return  this.marcaTarjeta;
     }
 
+
     public void recargarTarjeta(double i)
     {
         this.saldo = this.saldo + i;
@@ -40,4 +45,5 @@ public class Tarjeta {
     {
         //Calcula y devuelve el nuevo saldo de la tarjeta en caso de que se realizara la compra.
     }
+
 }

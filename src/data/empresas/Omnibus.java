@@ -73,6 +73,7 @@ public class Omnibus {
         String s1;
         if(!this.asientos.get(a1-1).getOcupacion()){   // true asiento ocupado / false asiento desocupado
             this.asientos.get(a1-1).setOcupacion(true);
+
             s1 = "Fue seleccionado con exito";
             return s1;
         }else{

@@ -1,9 +1,11 @@
 package data;
 
+
 import data.empresas.Asiento;
 import data.empresas.Viaje;
 
 import java.util.ArrayList;
+
 import java.util.Objects;
 
 public class Usuario {
@@ -36,6 +38,7 @@ public class Usuario {
         return nombre;
     }
 
+
     public void cargarSaldoTarjeta(double i)
     {
         this.tarjeta.recargarTarjeta(i);
@@ -45,6 +48,7 @@ public class Usuario {
     {
         this.getTarjeta().calcularNuevoSaldo(v,i);
     }
+
 
 
     @Override

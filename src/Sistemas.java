@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.sun.security.auth.UnixNumericUserPrincipal;
+
 import data.Tarjeta;
 import data.Usuario;
 import data.busqueda.Busqueda;
@@ -24,12 +25,14 @@ import data.empresas.Omnibus;
 import data.empresas.Viaje;
 public class Sistemas {
 
+
     private ArrayList<Usuario> clientes = new ArrayList<>();
 
     public void AgregarCliente(Usuario cliente)
     {
         this.clientes.add(cliente);
     }
+
     //Metodos de Seleccion de origen y destino
     public void listarCiudades(List<Empresa> empresas_totales) {
         Set<Pair<String, String>> pares = new HashSet<>();
@@ -97,6 +100,7 @@ public class Sistemas {
             if (i == 1)
                 b = true;
             else b= false;
+
         }
         return asientosSeleccionados;
     }
@@ -129,6 +133,7 @@ public class Sistemas {
         Tarjeta t;
         if (pasajero.getTarjeta() != null)
             t = pasajero.getTarjeta();
+
         else
         {
             System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
@@ -150,7 +155,9 @@ public class Sistemas {
                 }
                 else
                 {
+
                     System.out.println("Ingrese nombre y apellido para el pasajero del asiento: " + asientosSeleccionados.get(i).getNroAsiento() + System.lineSeparator());
+
                     System.out.println("Nombre:");
                     String nombre = scanner.nextLine();
                     System.out.println("Apellido:");
@@ -173,6 +180,7 @@ public class Sistemas {
             return true;
         }
         else return false;
+
     }
 
     public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales) {
