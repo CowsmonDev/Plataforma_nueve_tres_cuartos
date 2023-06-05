@@ -58,18 +58,15 @@ public class Main {
         System.out.println("Capacidad Maxima: " + omnAux.getCapacidad());
         omnAux.esquemaAsiento();
 
-
         /*Pair<List<Empresa>, List<Empresa>> empresasFechas = s.elegirFechas(e);
+
         List<Empresa> empresasIda = empresasFechas.getFirst();
         List<Empresa> empresasVuelta = empresasFechas.getSecond();
         System.out.println("Viajes ida: ");
 
         for (Empresa emp : empresasIda) {
-            System.out.println("1");
             for (Omnibus o : emp.getOmnibus()) {
-                System.out.println("2");
                 for (Viaje v : o.getViajes()) {
-                    System.out.println("3");
                     System.out.println(v.toString());
                 }
             }

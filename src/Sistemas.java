@@ -81,6 +81,7 @@ public class Sistemas {
     }
 
     public ArrayList<Asiento> seleccionarAsientos(Omnibus o)
+
     {
         Scanner scanner = new Scanner(System.in);
         o.esquemaAsiento();
@@ -173,7 +174,6 @@ public class Sistemas {
         }
         else return false;
     }
-
 
     public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales) {
         Scanner scanner = new Scanner(System.in);
