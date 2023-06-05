@@ -58,6 +58,29 @@ public class Main {
         Viaje viajeFinal = s.elegirViaje(viajeIda, sc);
 
         Omnibus omnibusIda = viajeFinal.getOmnibus();
-        s.seleccionarAsientos(omnibusIda, sc);
+        ArrayList<Asiento> listaAsientos = s.seleccionarAsientos(omnibusIda, sc);
+
+
+
+        // Ejemplo realizarCompra.
+        // Se ejemplifica con un Usuario estatico el uso del metodo realizarCompra.
+        // Se ejemplifica de esta manera debido a la falta de metodos de futuros sprints.
+
+        Tarjeta t = new Tarjeta(122,"Galicia","Visa");
+        Usuario yo = new Usuario("Conrado", "Pino", 43568131, t);
+        s.AgregarCliente(yo);
+        yo.cargarSaldoTarjeta(1000000);
+
+        boolean seConfirmaCompra = s.realizarCompra(yo, omnibusIda.getViajes().get(0), listaAsientos);
+        if (seConfirmaCompra)
+        {
+            for (Asiento a: listaAsientos)
+            {
+                omnibusIda.ocuparAsiento(a.getNroAsiento());
+            }
+        }
+        System.out.println("Asientos Ocupados: " + omnibusIda.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnibusIda.getCapacidad());
+        omnibusIda.esquemaAsiento();
     }
 }
