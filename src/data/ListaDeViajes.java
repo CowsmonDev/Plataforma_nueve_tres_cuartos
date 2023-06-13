@@ -1,7 +1,6 @@
 package data;
 
-import data.db.cvs.CSVReader;
-import data.db.cvs.CSVTransfrom;
+import data.db.cvs.CSVLector;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
@@ -16,6 +15,10 @@ public class ListaDeViajes {
     Map<String, Omnibus> hashOmnibus = new HashMap<>();
     Map<String, Empresa> hashEmpresas = new HashMap<>();
 
+    private final CSVLector<Viaje> ReaderViajes = new CSVLector<Viaje>("src/data/db/data/VIAJE.csv");
+    private CSVLector<Omnibus> ReaderOmnibus = new CSVLector<Omnibus>("src/data/db/data/OMNIBUS.csv");
+    private CSVLector<Empresa> ReaderEmpresas = new CSVLector<Empresa>("src/data/db/data/EMPRESA.csv");
+
     private static ListaDeViajes instance = null;
 
     public static ListaDeViajes getInstance(){
@@ -23,13 +26,11 @@ public class ListaDeViajes {
     }
 
     private ListaDeViajes(){
-        ReaderEmpresas.FullData(this, new Empresa("", ""));
-        ReaderOmnibus.FullData(this, new Omnibus("", 0, 0, ""));
-        ReaderViajes.FullData(this, new Viaje());
-    }
-
-    public <T extends CSVTransfrom<T>> void add(T object){
-        this.add(object);
+        ReaderEmpresas.getData(new Empresa()).forEach(this::add);
+        if(!this.empresas.isEmpty())
+            ReaderOmnibus.getData(new Omnibus()).forEach(this::add);
+        if(!this.hashOmnibus.isEmpty())
+            ReaderViajes.getData(new Viaje()).forEach(this::add);
     }
 
     public void add(Viaje v){
@@ -83,25 +84,6 @@ public class ListaDeViajes {
         return viajes;
     }
 
-    private final CSVReader<Viaje> ReaderViajes = new CSVReader<Viaje>("src/data/db/data/VIAJE.csv") {
-        @Override
-        protected void addData(ListaDeViajes viajes, Viaje object, String[] line) {
-            viajes.add(object.transformFromCSV(line));
-        }
-    };
 
-    private CSVReader<Omnibus> ReaderOmnibus = new CSVReader<Omnibus>("src/data/db/data/OMNIBUS.csv") {
-        @Override
-        protected void addData(ListaDeViajes viajes, Omnibus object, String[] line) {
-            viajes.add(object.transformFromCSV(line));
-        }
-    };
-
-    private CSVReader<Empresa> ReaderEmpresas = new CSVReader<Empresa>("src/data/db/data/EMPRESA.csv") {
-        @Override
-        protected void addData(ListaDeViajes viajes, Empresa object, String[] line) {
-            viajes.add(object.transformFromCSV(line));
-        }
-    };
 
 }
