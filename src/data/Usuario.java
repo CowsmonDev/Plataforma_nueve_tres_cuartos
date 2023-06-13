@@ -82,6 +82,7 @@ public class Usuario {
                 clave = scanner.nextLine();
             } while (!validarClaveAcceso(clave));
         }
+        setClaveAcceso(clave);
 
         System.out.println("Desea ingresar tarjeta? (y/n): ");
         String resp = scanner.nextLine().toLowerCase();
