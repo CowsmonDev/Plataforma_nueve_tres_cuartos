@@ -1,12 +1,10 @@
 package data;
 
-import data.db.CSVReader;
+import data.db.cvs.CSVLector;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ListaDeViajes {
@@ -17,6 +15,10 @@ public class ListaDeViajes {
     Map<String, Omnibus> hashOmnibus = new HashMap<>();
     Map<String, Empresa> hashEmpresas = new HashMap<>();
 
+    private final CSVLector<Viaje> ReaderViajes = new CSVLector<Viaje>("src/data/db/data/VIAJE.csv");
+    private CSVLector<Omnibus> ReaderOmnibus = new CSVLector<Omnibus>("src/data/db/data/OMNIBUS.csv");
+    private CSVLector<Empresa> ReaderEmpresas = new CSVLector<Empresa>("src/data/db/data/EMPRESA.csv");
+
     private static ListaDeViajes instance = null;
 
     public static ListaDeViajes getInstance(){
@@ -24,28 +26,32 @@ public class ListaDeViajes {
     }
 
     private ListaDeViajes(){
-        ReaderEmpresas.FullData(this);
-        ReaderOmnibus.FullData(this);
-        ReaderViajes.FullData(this);
+        ReaderEmpresas.getData(new Empresa()).forEach(this::add);
+        if(!this.empresas.isEmpty())
+            ReaderOmnibus.getData(new Omnibus()).forEach(this::add);
+        if(!this.hashOmnibus.isEmpty())
+            ReaderViajes.getData(new Viaje()).forEach(this::add);
     }
 
-    public void addViaje(String id_omnibus, Viaje v){
-        if(hashOmnibus.containsKey(id_omnibus)){
-            Omnibus o = hashOmnibus.get(id_omnibus);
-            o.getViajes().add(v);
+    public void add(Viaje v){
+        if(hashOmnibus.containsKey(v.getIdOmnibus())){
+            Omnibus o = hashOmnibus.get(v.getIdOmnibus());
             v.setOmnibus(o);
+            o.getViajes().add(v);
             viajes.add(v);
         }
     }
 
-    public void addOmnibus(Omnibus o, String id_empresa){
-        if(hashEmpresas.containsKey(id_empresa) && !hashOmnibus.containsKey(o.getIdOmnibus())){
+    public void add(Omnibus o){
+        if(hashEmpresas.containsKey(o.getIdEmpresa()) && !hashOmnibus.containsKey(o.getIdOmnibus())){
+            Empresa e = hashEmpresas.get(o.getIdEmpresa());
+            o.setEmpresa(e);
+            e.getOmnibus().add(o);
             hashOmnibus.put(o.getIdOmnibus(), o);
-            hashEmpresas.get(id_empresa).getOmnibus().add(o);
         }
     }
 
-    public void addEmpresas(Empresa e){
+    public void add(Empresa e){
         if(!hashEmpresas.containsKey(e.getIdEmpresa())){
             empresas.add(e);
             hashEmpresas.put(e.getIdEmpresa(), e);
@@ -78,43 +84,6 @@ public class ListaDeViajes {
         return viajes;
     }
 
-    private CSVReader ReaderViajes = new CSVReader("src/data/db/data/VIAJE.csv") {
-        @Override
-        protected void addData(ListaDeViajes viajes, String[] line) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date data = new Date();
-            try {
-                data = dateFormat.parse(line[2]);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Viaje v = new Viaje(
-                    line[0],
-                    line[1],
-                    Float.parseFloat(line[3]),
-                    null
-            );
-            v.setFecha(data);
-            viajes.addViaje(line[4], v);
-        }
-    };
 
-    private CSVReader ReaderOmnibus = new CSVReader("src/data/db/data/OMNIBUS.csv") {
-        @Override
-        protected void addData(ListaDeViajes viajes, String[] line) {
-            Omnibus o = new Omnibus(line[0],
-                    Integer.parseInt(line[1]),
-                    Integer.parseInt(line[2]),
-                    null);
-            viajes.addOmnibus(o, line[3]);
-        }
-    };
-
-    private CSVReader ReaderEmpresas = new CSVReader("src/data/db/data/EMPRESA.csv") {
-        @Override
-        protected void addData(ListaDeViajes viajes, String[] line) {
-            viajes.addEmpresas(new Empresa(line[0], line[1]));
-        }
-    };
 
 }
