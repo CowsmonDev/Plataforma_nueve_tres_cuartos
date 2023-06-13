@@ -31,6 +31,6 @@ public class Empresa implements CSVTransfrom<Empresa> {
 
     @Override
     public String transformToCSV() {
-        return id_empresa + "," + nombre;
+        return id_empresa + ";" + nombre;
     }
 }

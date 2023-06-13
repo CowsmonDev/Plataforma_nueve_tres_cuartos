@@ -82,6 +82,6 @@ public class Viaje implements CSVTransfrom<Viaje> {
 
     @Override
     public String transformToCSV() {
-        return this.getOrigen() + "," + this.getDestino() + "," + this.getFecha() + "," + this.getPrecio() + "," + this.getIdOmnibus();
+        return this.getOrigen() + ";" + this.getDestino() + ";" + this.getFecha() + ";" + this.getPrecio() + ";" + this.getIdOmnibus();
     }
 }

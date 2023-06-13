@@ -133,9 +133,9 @@ public class Omnibus implements CSVTransfrom<Omnibus> {
 
     @Override
     public String transformToCSV() {
-        return  this.id_omnibus + "," +
-                this.asientos.size() + "," +
-                this.velMax + "," +
+        return  this.id_omnibus + ";" +
+                this.asientos.size() + ";" +
+                this.velMax + ";" +
                 this.idEmpresa;
     }
 }
