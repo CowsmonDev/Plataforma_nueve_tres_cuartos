@@ -16,6 +16,7 @@ public class Usuario {
     private long DNI;
     private Tarjeta tarjeta;
     private String claveAcceso;
+    private String mail;
 
     public Usuario(String nombre,String apellido, long DNI, Tarjeta tarjeta)
     {
@@ -53,8 +54,16 @@ public class Usuario {
         this.claveAcceso = claveAcceso;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     // Log In
-    public void registrarse() {
+    public void registrarse(ArrayList<Usuario> us) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese su nombre: ");
@@ -67,7 +76,7 @@ public class Usuario {
         DNI = scanner.nextLong();
 
         // Validar datos personales
-        if (!validarDatosPersonales()) {
+        if (!validarDatosPersonales(us)) {
             System.out.println("ERROR. DNI existente en el sistema.");
             return;
         }
@@ -92,15 +101,32 @@ public class Usuario {
             tarjeta = null;
         }
 
+        System.out.println("Ingresar correo electronico: ");
+        String email = scanner.nextLine().toLowerCase();
+
+        if(!validarMail(us, email)){
+            do {
+                System.out.println("EMail ya registrado en el sistema.");
+                System.out.println("Ingrese otro correo electronico: ");
+                email = scanner.nextLine().toLowerCase();
+            } while (!validarMail(us, clave));
+        }
+        setMail(email);
+
 
         System.out.println("Registro completado exitosamente.");
-        // GUARDAR EN DB
         scanner.close();
-    }
+    }git a
 
-    public boolean validarDatosPersonales(){
-        // Chequear si ya existe el DNI en la db
-        return true;
+    public boolean validarDatosPersonales(ArrayList<Usuario> us){
+        boolean igual = false;
+        for(int i=0; i<us.size(); i++){
+            if(us.get(i).getDNI() == this.getDNI()){
+                igual = true;
+                break;
+            }
+        }
+        return igual;
     }
 
     public boolean validarClaveAcceso(String claveAcceso) {
@@ -130,7 +156,16 @@ public class Usuario {
         return contieneMinuscula && contieneMayuscula && contieneNumero;
     }
 
-
+    public boolean validarMail(ArrayList<Usuario> us, String email){
+        boolean igual = false;
+        for(int i=0; i<us.size(); i++){
+            if(us.get(i).getMail().equals(email)){
+                igual = true;
+                break;
+            }
+        }
+        return igual;
+    }
 
     public void cargarSaldoTarjeta(double i)
     {
