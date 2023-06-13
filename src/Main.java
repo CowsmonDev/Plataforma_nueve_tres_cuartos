@@ -1,24 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+import java.util.Scanner;
+import java.util.Set;
 
 import data.ListaDeViajes;
 import data.Tarjeta;
 import data.Usuario;
-import data.busqueda.filtros.FiltroCapacidadMenor;
-import data.empresas.Asiento;
-
-import java.util.List;
-
-import data.ListaDeViajes;
-import data.busqueda.filtros.FiltroCapacidadMenor;
-
 import data.busqueda.Busqueda;
 import data.busqueda.Pair;
 import data.busqueda.filtros.FiltroCiudadDestino;
 import data.busqueda.filtros.FiltroCiudadOrigen;
 import data.busqueda.filtros.FiltrosAND;
-import data.busqueda.filtros.FiltrosFechaEnAdelante;
+import data.empresas.Asiento;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
 import data.empresas.Viaje;
@@ -26,13 +19,34 @@ import data.empresas.Viaje;
 public class Main {
     public static void main(String[] args) {
 
+
+
+
+
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
         List<Empresa> empresas_totales = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
         Busqueda b = new Busqueda(); //Crea una nueva busqueda;
-        b.setFiltroViajes(new FiltrosFechaEnAdelante(new Date()));
-        empresas_totales = b.buscar(empresas_totales);
+        //b.setFiltroOmnibus(new FiltroEmpresa("Via Tac"));
+        //empresas_totales = b.buscar(empresas_totales);
 
         Sistemas s = new Sistemas();
+
+
+        // b.setFiltroOmnibus(new FiltrosAND<>(new FiltroEmpresa("Via Tac"),new FiltroLleno()));
+
+        // empresas_totales = b.buscar(empresas_totales);
+
+        for(Empresa  empresa:  empresas_totales){
+            for(Omnibus o: empresa.getOmnibus()){
+                System.out.println(o.toString());
+            }
+        }
+
+
+
+
+
+
 
         System.out.println("Bienvenido al sistema de compra de pasajes");
         System.out.println("Por favor, elija una ciudad de origen y una de destino");
@@ -67,11 +81,14 @@ public class Main {
         // Se ejemplifica de esta manera debido a la falta de metodos de futuros sprints.
 
         Tarjeta t = new Tarjeta(122,"Galicia","Visa");
-        Usuario yo = new Usuario("Conrado", "Pino", 43568131, t);
-        s.AgregarCliente(yo);
-        yo.cargarSaldoTarjeta(1000000);
+        Usuario cl = new Usuario("Conrado","pepito" , "Pino", 43568131, t,"12345","@");
+        s.AgregarCliente(cl);
+        cl.cargarSaldoTarjeta(1000000);
 
-        boolean seConfirmaCompra = s.realizarCompra(yo, omnibusIda.getViajes().get(0), listaAsientos);
+        System.out.println(s.Login());
+
+
+        boolean seConfirmaCompra = s.realizarCompra(cl, omnibusIda.getViajes().get(0), listaAsientos);
         if (seConfirmaCompra)
         {
             for (Asiento a: listaAsientos)

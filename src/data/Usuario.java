@@ -1,29 +1,30 @@
 package data;
 
 
-import data.empresas.Asiento;
-import data.empresas.Viaje;
-
 import java.util.ArrayList;
-
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
+import data.empresas.Viaje;
+
 public class Usuario {
     private String nombre;
+    private String nickname;
     private String apellido;
     private long DNI;
     private Tarjeta tarjeta;
     private String claveAcceso;
     private String mail;
 
-    public Usuario(String nombre,String apellido, long DNI, Tarjeta tarjeta)
+    public Usuario(String nombre,String nickname,String apellido, long DNI, Tarjeta tarjeta,String contraseña,String mail)
     {
         this.apellido = apellido;
         this.nombre = nombre;
         this.DNI = DNI;
         this.tarjeta = tarjeta;
+        this.nickname = nickname;
+        this.claveAcceso =contraseña;
+        this.mail = mail;
     }
 
     public String getApellido() {
@@ -40,6 +41,10 @@ public class Usuario {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public String getNickname(){
+        return nickname;
     }
 
     public String getNombreCompleto() {
@@ -67,6 +72,9 @@ public class Usuario {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese su nombre: ");
+        nombre = scanner.nextLine();
+
+        System.out.println("Ingrese su nickname: ");
         nombre = scanner.nextLine();
 
         System.out.println("Ingrese su apellido: ");
@@ -106,7 +114,7 @@ public class Usuario {
 
         if(!validarMail(us, email)){
             do {
-                System.out.println("EMail ya registrado en el sistema.");
+                System.out.println("Email ya registrado en el sistema.");
                 System.out.println("Ingrese otro correo electronico: ");
                 email = scanner.nextLine().toLowerCase();
             } while (!validarMail(us, clave));
@@ -116,17 +124,26 @@ public class Usuario {
 
         System.out.println("Registro completado exitosamente.");
         scanner.close();
-    }git a
+    }
 
     public boolean validarDatosPersonales(ArrayList<Usuario> us){
         boolean igual = false;
         for(int i=0; i<us.size(); i++){
-            if(us.get(i).getDNI() == this.getDNI()){
+            if((us.get(i).getDNI() == this.getDNI())/*||(us.get(i).getNickname() == this.getNickname())*/){
                 igual = true;
                 break;
             }
         }
         return igual;
+    }
+
+    public Usuario validarLogueo(ArrayList<Usuario> us){
+        for(Usuario usuario: us){
+            if(((usuario.getNickname() == this.getNickname()))){
+                return usuario;
+            }
+        }
+        return null;
     }
 
     public boolean validarClaveAcceso(String claveAcceso) {

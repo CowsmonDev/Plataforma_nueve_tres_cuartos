@@ -1,8 +1,13 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.sun.security.auth.UnixNumericUserPrincipal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 
 import data.Tarjeta;
 import data.Usuario;
@@ -26,6 +31,27 @@ public class Sistemas {
     public void AgregarCliente(Usuario cliente)
     {
         this.clientes.add(cliente);
+    }
+
+    public String Login(){
+        String nombre;
+        String password;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Ingrese su nick: ");
+        nombre = scanner.nextLine();
+
+        System.out.println("Ingrese su contraseña: ");
+        password = scanner.nextLine();
+
+        Usuario us = new Usuario("", nombre, password,0, null,"" ,"" );
+        Usuario aux = us.validarLogueo(clientes);
+        if(aux != null){  //valido que exista ese usuario 
+            if(aux.getClaveAcceso() == password){  //valido que se haya ingresado la contraseña correcta
+                return "Logueado";
+            }
+        }
+        return "Algo salio mal, logueese nuevamente";
     }
 
 
@@ -172,7 +198,7 @@ public class Sistemas {
                     String nombre = scanner.nextLine();
                     System.out.println("Apellido:");
                     String apellido = scanner.nextLine();
-                    Usuario u = new Usuario(nombre,apellido,DNI,null);
+                    Usuario u = new Usuario(nombre,"",apellido,DNI,null,"","");
                     asientosSeleccionados.get(i).setPasajero(u);
                 }
             }
