@@ -19,7 +19,8 @@ public class CSVLector<T extends CSVTransfrom<T>> {
         try {
             BufferedReader br = new BufferedReader(new FileReader(this.path));
             if((line = br.readLine()) != null)
-                return br.lines().map(l -> object.transformFromCSV(l.split(delimiter))).toList();
+                elements = br.lines().map(l -> object.transformFromCSV(l.split(delimiter))).toList();
+            br.close();
         }catch (FileNotFoundException e){
             System.out.println("No se encontro el archivo");
         } catch (IOException e) {
@@ -28,16 +29,15 @@ public class CSVLector<T extends CSVTransfrom<T>> {
         return elements;
     }
 
-    // ! SIN FUNCIONAR, NO USAR
-    public void setData(List<T> object){
+    public void setData(String header, List<T> object){
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(this.path));
-            String header = "idEmpresa; Nombre";
             bw.write(header);
             for (T o : object) {
-                System.out.println(o.transformToCSV());
+                bw.newLine();
                 bw.write(o.transformToCSV());
             }
+            bw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

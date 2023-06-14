@@ -18,35 +18,11 @@ import data.empresas.Viaje;
 
 public class Main {
     public static void main(String[] args) {
-
-
-
-
-
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
         List<Empresa> empresas_totales = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
         Busqueda b = new Busqueda(); //Crea una nueva busqueda;
-        //b.setFiltroOmnibus(new FiltroEmpresa("Via Tac"));
-        //empresas_totales = b.buscar(empresas_totales);
-
+        
         Sistemas s = new Sistemas();
-
-
-        // b.setFiltroOmnibus(new FiltrosAND<>(new FiltroEmpresa("Via Tac"),new FiltroLleno()));
-
-        // empresas_totales = b.buscar(empresas_totales);
-
-        for(Empresa  empresa:  empresas_totales){
-            for(Omnibus o: empresa.getOmnibus()){
-                System.out.println(o.toString());
-            }
-        }
-
-
-
-
-
-
 
         System.out.println("Bienvenido al sistema de compra de pasajes");
         System.out.println("Por favor, elija una ciudad de origen y una de destino");
