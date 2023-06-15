@@ -7,6 +7,7 @@ import data.empresas.ListaDeViajes;
 import data.usuarios.Tarjeta;
 import data.usuarios.Usuario;
 import modules.busqueda.Busqueda;
+import modules.busqueda.BusquedaConEmpresa;
 import modules.busqueda.Pair;
 import modules.busqueda.filtros.FiltroCiudadDestino;
 import modules.busqueda.filtros.FiltroCiudadOrigen;
@@ -20,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
         List<Empresa> empresas_totales = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
-        Busqueda b = new Busqueda(); //Crea una nueva busqueda;
+        BusquedaConEmpresa b = new BusquedaConEmpresa(); //Crea una nueva busqueda;
 
         Sistemas s = new Sistemas();
 
