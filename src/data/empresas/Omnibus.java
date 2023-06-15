@@ -17,11 +17,7 @@ public class Omnibus implements CSVTransfrom<Omnibus> {
     private Empresa empresa;
     private String idEmpresa;
 
-    public Omnibus() {
-        this("", 0, 0, "");
-        this.empresa = null;
-    }
-    public Omnibus(String id_omnibus, int velMax, int asientos, String idEmpresa) {
+    private Omnibus(String id_omnibus, int velMax, int asientos) {
         this.id_omnibus = id_omnibus;
         this.velMax = velMax;
         this.ocupados = 0;
@@ -29,20 +25,86 @@ public class Omnibus implements CSVTransfrom<Omnibus> {
         for (int i = 0; i < asientos; i++)
             this.asientos.add(new Asiento(i + 1));
         this.viajes = new ArrayList<>();
+    }
+
+    public Omnibus() {
+        this("", 0, 0);
+        this.idEmpresa = "";
+        this.empresa = null;
+    }
+
+    public Omnibus(String id_omnibus, int velMax, int asientos, String idEmpresa) {
+        this(id_omnibus, velMax, asientos);
         this.idEmpresa = idEmpresa;
         this.empresa = null;
     }
 
     public Omnibus(String id_omnibus, int velMax, int asientos, Empresa empresa) {
-        this.id_omnibus = id_omnibus;
-        this.velMax = velMax;
-        this.ocupados = 0;
-        this.asientos = new ArrayList<>(asientos);
-        for (int i = 0; i < asientos; i++)
-            this.asientos.add(new Asiento(i + 1));
-        this.viajes = new ArrayList<>();
+        this(id_omnibus, velMax, asientos);
         this.empresa = empresa;
         this.idEmpresa = empresa.getIdEmpresa();
+    }
+
+    public boolean isOcupado(int a1){
+        return this.asientos.get(a1).getOcupacion();
+    }
+
+    public String ocuparAsiento(int a1){
+        if(!isOcupado(a1-1)){   // true asiento ocupado / false asiento desocupado
+            this.ocupados++;
+            this.asientos.get(a1-1).setOcupacion(true);
+            return "Fue seleccionado con exito";
+        }
+        return "Este asiento estaba ocupado";
+    }
+
+    public void desocuparAsiento(int a1) {
+            this.ocupados--;
+            this.asientos.get(a1 - 1).setOcupacion(false);
+    }
+
+    public String toString(){
+        String s1 = " IdOmnibus: " + this.getIdOmnibus() + 
+                    " Velocidad Maxima: " + this.getVelMax() + " Capacidad: " + this.getCapacidad();
+        return s1;
+    }
+
+    public void esquemaAsiento(){
+        System.out.println("Esquema de asientos del ómnibus:");
+        int i = 1;
+        for(Asiento a : asientos){
+            System.out.printf("%3d", i); // Número de asiento
+            System.out.print(
+                    (a.getOcupacion())?
+                            "[X]"   // Asiento Ocupado
+                            : "[ ]" // Asiento Desocupado
+            );
+
+            if(i % 4 == 0){
+                System.out.println(); // Salto de línea cada 4 asientos
+            }else if(i % 2 == 0){ // si no es un salto, comprobamos si es un pasillo
+                System.out.print(" | "); // Pasillo
+            }
+            i++;
+        }
+    }
+
+    // Implements interface CSVTransfrom
+    @Override
+    public Omnibus transformFromCSV(String[] data) {
+        //viajes.addOmnibus(o, line[3]);
+        return new Omnibus(data[0],
+                Integer.parseInt(data[2]),
+                Integer.parseInt(data[1]),
+                data[3]);
+    }
+
+    @Override
+    public String transformToCSV() {
+        return  this.id_omnibus + ";" +
+                this.asientos.size() + ";" +
+                this.velMax + ";" +
+                this.idEmpresa;
     }
 
     // Getters
@@ -74,68 +136,4 @@ public class Omnibus implements CSVTransfrom<Omnibus> {
         this.idEmpresa = empresa.getIdEmpresa();
     }
 
-    public boolean isOcupado(int a1){
-        return this.asientos.get(a1).getOcupacion();
-    }
-
-    public String ocuparAsiento(int a1){
-        if(!isOcupado(a1-1)){   // true asiento ocupado / false asiento desocupado
-            this.ocupados++;
-            this.asientos.get(a1-1).setOcupacion(true);
-            return "Fue seleccionado con exito";
-        }
-        return "Este asiento estaba ocupado";
-    }
-
-    public void desocuparAsiento(int a1)
-    {
-            this.ocupados--;
-            this.asientos.get(a1 - 1).setOcupacion(false);
-    }
-
-    public String toString(){
-        String s1 = " IdOmnibus: " + this.getIdOmnibus() + 
-                    " Velocidad Maxima: " + this.getVelMax() + " Capacidad: " + this.getCapacidad();
-        return s1;
-    }
-
-    public void esquemaAsiento(){
-        System.out.println("Esquema de asientos del ómnibus:");
-        for (int i = 0; i < asientos.size(); i++) { //recorro la list de asientos
-            System.out.printf("%3d", i + 1); // Número de asiento
-            if (asientos.get(i).getOcupacion()) {
-                System.out.print("[X] "); // Asiento ocupado
-            } else {
-                System.out.print("[ ] "); // Asiento desocupado
-            }
-
-
-            if (((i + 1) % 2 == 0)&&((i + 1) % 4 != 0)) {
-                System.out.print(" | "); // Pasillo
-            }
-
-
-            if ((i + 1) % 4 == 0) {
-                System.out.println(); // Salto de línea cada 4 asientos
-            }
-        }
-    }
-
-    // Implements interface CSVTransfrom
-    @Override
-    public Omnibus transformFromCSV(String[] data) {
-        //viajes.addOmnibus(o, line[3]);
-        return new Omnibus(data[0],
-                Integer.parseInt(data[2]),
-                Integer.parseInt(data[1]),
-                data[3]);
-    }
-
-    @Override
-    public String transformToCSV() {
-        return  this.id_omnibus + ";" +
-                this.asientos.size() + ";" +
-                this.velMax + ";" +
-                this.idEmpresa;
-    }
 }

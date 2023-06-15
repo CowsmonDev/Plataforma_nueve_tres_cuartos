@@ -1,4 +1,4 @@
-package data.busqueda;
+package modules.busqueda;
 import java.util.Objects;
 
 public class Pair<T, U> {

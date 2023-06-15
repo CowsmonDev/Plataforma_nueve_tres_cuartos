@@ -1,4 +1,4 @@
-package data.busqueda.filtros;
+package modules.busqueda.filtros;
 
 public class FiltroNot<T> implements Filtros<T> {
     private final Filtros<T> filtros;

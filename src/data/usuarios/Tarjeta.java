@@ -1,4 +1,4 @@
-package data;
+package data.usuarios;
 
 
 import data.empresas.Viaje;

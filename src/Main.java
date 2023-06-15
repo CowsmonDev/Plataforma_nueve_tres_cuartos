@@ -3,14 +3,14 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-import data.ListaDeViajes;
-import data.Tarjeta;
-import data.Usuario;
-import data.busqueda.Busqueda;
-import data.busqueda.Pair;
-import data.busqueda.filtros.FiltroCiudadDestino;
-import data.busqueda.filtros.FiltroCiudadOrigen;
-import data.busqueda.filtros.FiltrosAND;
+import data.empresas.ListaDeViajes;
+import data.usuarios.Tarjeta;
+import data.usuarios.Usuario;
+import modules.busqueda.Busqueda;
+import modules.busqueda.Pair;
+import modules.busqueda.filtros.FiltroCiudadDestino;
+import modules.busqueda.filtros.FiltroCiudadOrigen;
+import modules.busqueda.filtros.FiltrosAND;
 import data.empresas.Asiento;
 import data.empresas.Empresa;
 import data.empresas.Omnibus;
@@ -21,7 +21,7 @@ public class Main {
         ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
         List<Empresa> empresas_totales = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
         Busqueda b = new Busqueda(); //Crea una nueva busqueda;
-        
+
         Sistemas s = new Sistemas();
 
         System.out.println("Bienvenido al sistema de compra de pasajes");

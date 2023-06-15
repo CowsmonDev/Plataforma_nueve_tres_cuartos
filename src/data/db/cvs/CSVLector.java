@@ -3,10 +3,8 @@ package data.db.cvs;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class CSVLector<T extends CSVTransfrom<T>> {
-    private String line = "";
     private final String delimiter = ";";
     private String path = "";
 
@@ -16,6 +14,7 @@ public class CSVLector<T extends CSVTransfrom<T>> {
 
     public List<T> getData(T object){
         List<T> elements = new ArrayList<>();
+        String line = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(this.path));
             if((line = br.readLine()) != null)

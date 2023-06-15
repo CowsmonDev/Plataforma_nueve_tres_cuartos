@@ -1,5 +1,5 @@
 package data.empresas;
-import data.Usuario;
+import data.usuarios.Usuario;
 
 public class Asiento {
     private int nroAsiento;

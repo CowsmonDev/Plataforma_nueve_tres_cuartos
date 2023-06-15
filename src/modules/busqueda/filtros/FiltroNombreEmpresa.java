@@ -1,4 +1,4 @@
-package data.busqueda.filtros;
+package modules.busqueda.filtros;
 
 import data.empresas.Empresa;
 

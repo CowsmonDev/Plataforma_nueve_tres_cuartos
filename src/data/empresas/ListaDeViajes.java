@@ -1,9 +1,6 @@
-package data;
+package data.empresas;
 
 import data.db.cvs.CSVLector;
-import data.empresas.Empresa;
-import data.empresas.Omnibus;
-import data.empresas.Viaje;
 
 import java.util.*;
 
@@ -84,6 +81,11 @@ public class ListaDeViajes {
         return viajes;
     }
 
+    public void close(){
+        ReaderEmpresas.setData("IdEmpresa;Nombre", this.empresas);
+        ReaderOmnibus.setData("IdOmnibus;capacidad;vel_max;IdEmpresa", this.hashOmnibus.values().stream().toList());
+        ReaderViajes.setData("Origen;Destino;Fecha;Precio;IdOmnibus", this.viajes);
+    }
 
 
 }
