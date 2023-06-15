@@ -1,6 +1,6 @@
 package modules.busqueda.filtros;
 
-import data.empresas.Omnibus;
+import data.empresas.estructura.omnibus.Omnibus;
 
 public class FiltroEmpresa implements Filtros<Omnibus> {
     

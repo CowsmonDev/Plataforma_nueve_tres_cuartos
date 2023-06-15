@@ -1,6 +1,8 @@
-package data.empresas;
+package data.empresas.estructura.omnibus;
 
 import data.db.cvs.CSVTransfrom;
+import data.empresas.estructura.empresa.Empresa;
+import data.empresas.estructura.viaje.Viaje;
 
 import java.util.ArrayList;
 import java.util.List;

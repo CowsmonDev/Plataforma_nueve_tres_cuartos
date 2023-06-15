@@ -1,7 +1,7 @@
 package modules.busqueda.filtros;
 
 
-import data.empresas.Viaje;
+import data.empresas.estructura.viaje.Viaje;
 
 import java.util.Date;
 

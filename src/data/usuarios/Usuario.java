@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-import data.empresas.Viaje;
+import data.empresas.estructura.viaje.Viaje;
 
 public class Usuario {
     private String nombre;

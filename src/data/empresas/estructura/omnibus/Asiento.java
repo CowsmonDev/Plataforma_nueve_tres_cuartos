@@ -1,4 +1,4 @@
-package data.empresas;
+package data.empresas.estructura.omnibus;
 import data.usuarios.Usuario;
 
 public class Asiento {

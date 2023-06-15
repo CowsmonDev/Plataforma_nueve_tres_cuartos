@@ -1,7 +1,7 @@
 package data.usuarios;
 
 
-import data.empresas.Viaje;
+import data.empresas.estructura.viaje.Viaje;
 
 
 public class Tarjeta {

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import data.usuarios.Tarjeta;
 import data.usuarios.Usuario;
-import modules.busqueda.Busqueda;
+import modules.busqueda.BusquedaConEmpresa;
 import modules.busqueda.Pair;
 import modules.busqueda.filtros.FiltroLleno;
 import modules.busqueda.filtros.FiltroNot;
@@ -19,10 +19,10 @@ import modules.busqueda.filtros.Filtros;
 import modules.busqueda.filtros.FiltrosAND;
 import modules.busqueda.filtros.FiltrosFechaEnAdelante;
 import modules.busqueda.filtros.FiltrosFechaExacta;
-import data.empresas.Asiento;
-import data.empresas.Empresa;
-import data.empresas.Omnibus;
-import data.empresas.Viaje;
+import data.empresas.estructura.omnibus.Asiento;
+import data.empresas.estructura.empresa.Empresa;
+import data.empresas.estructura.omnibus.Omnibus;
+import data.empresas.estructura.viaje.Viaje;
 public class Sistemas {
 
 
@@ -59,7 +59,7 @@ public class Sistemas {
     public Set<Pair<String, String>> listarCiudades(List<Empresa> empresas_totales) {
         Set<Pair<String, String>> pares = new HashSet<>();
 
-        Busqueda b = new Busqueda();
+        BusquedaConEmpresa b = new BusquedaConEmpresa();
         b.setFiltroViajes(new FiltrosFechaEnAdelante(new Date()));
         List<Empresa> empresas = b.buscar(empresas_totales);
 
@@ -96,14 +96,13 @@ public class Sistemas {
     public List<Empresa> posiblesOmn(List<Empresa> empresas_totales, Filtros<Omnibus> f1){
 
         //creo una busqueda y la filtro con el parametro f1
-        Busqueda b = new Busqueda();
+        BusquedaConEmpresa b = new BusquedaConEmpresa();
         f1 = (f1 != null)? new FiltrosAND<>(f1, new FiltroNot<>(new FiltroLleno()))
                 : new FiltroNot<>(new FiltroLleno());
 
         b.setFiltroOmnibus(f1);
-        List<Empresa> empresas = b.buscar(empresas_totales);
 
-        return empresas;
+        return b.buscar(empresas_totales);
     }
 
     public Viaje elegirViaje(List<Empresa> empresas_totales, Scanner sc){
@@ -119,7 +118,7 @@ public class Sistemas {
             }
         }
         //int viajeElegido = sc.nextInt();
-        Integer viajeElegido = 0;
+        int viajeElegido = 0;
         while (!viaje.containsKey(viajeElegido)){
             System.out.println("Viaje no valido, ingrese otro");
             viajeElegido = sc.nextInt();
@@ -233,7 +232,7 @@ public class Sistemas {
             throw new RuntimeException(e);
         }
 
-        Busqueda b = new Busqueda();
+        BusquedaConEmpresa b = new BusquedaConEmpresa();
 
         Filtros<Viaje> f1 = new FiltrosFechaExacta(fechaIda);
         b.setFiltroViajes(f1);
@@ -259,7 +258,6 @@ public class Sistemas {
             b.setFiltroViajes(f2);
             empresasVuelta = b.buscar(empresas_totales);
         }
-        Pair<List<Empresa>, List<Empresa>> result = new Pair<>(empresasIda, empresasVuelta);
-        return result;
+        return new Pair<>(empresasIda, empresasVuelta);
     }
 }

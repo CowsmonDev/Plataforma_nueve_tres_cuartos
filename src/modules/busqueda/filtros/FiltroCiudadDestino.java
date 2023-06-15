@@ -1,6 +1,6 @@
 package modules.busqueda.filtros;
 
-import data.empresas.Viaje;
+import data.empresas.estructura.viaje.Viaje;
 
 public class FiltroCiudadDestino implements Filtros<Viaje>{
     private String ciudad;

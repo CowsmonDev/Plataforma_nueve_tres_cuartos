@@ -1,6 +1,6 @@
 package modules.busqueda.filtros;
 
-import data.empresas.Empresa;
+import data.empresas.estructura.empresa.Empresa;
 
 public class FiltroNombreEmpresa implements Filtros<Empresa> {
 

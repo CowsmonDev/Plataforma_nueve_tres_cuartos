@@ -11,10 +11,10 @@ import modules.busqueda.Pair;
 import modules.busqueda.filtros.FiltroCiudadDestino;
 import modules.busqueda.filtros.FiltroCiudadOrigen;
 import modules.busqueda.filtros.FiltrosAND;
-import data.empresas.Asiento;
-import data.empresas.Empresa;
-import data.empresas.Omnibus;
-import data.empresas.Viaje;
+import data.empresas.estructura.omnibus.Asiento;
+import data.empresas.estructura.empresa.Empresa;
+import data.empresas.estructura.omnibus.Omnibus;
+import data.empresas.estructura.viaje.Viaje;
 
 public class Main {
     public static void main(String[] args) {

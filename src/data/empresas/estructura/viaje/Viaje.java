@@ -1,6 +1,7 @@
-package data.empresas;
+package data.empresas.estructura.viaje;
 
 import data.db.cvs.CSVTransfrom;
+import data.empresas.estructura.omnibus.Omnibus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
