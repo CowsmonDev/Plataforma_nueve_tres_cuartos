@@ -67,6 +67,8 @@ public class Usuario {
         this.mail = mail;
     }
 
+    public void setTarjeta(Tarjeta t){this.tarjeta = t;}
+
     // Log In
     public void registrarse(ArrayList<Usuario> us) {
         Scanner scanner = new Scanner(System.in);
@@ -104,7 +106,9 @@ public class Usuario {
         System.out.println("Desea ingresar tarjeta? (y/n): ");
         String resp = scanner.nextLine().toLowerCase();
         if(resp.equals("y")){
-            // tarjeta. Metodo para cargar tarjeta
+            Tarjeta t = registrarTarjeta();
+            if (t != null)
+                this.tarjeta = registrarTarjeta();
         }else{
             tarjeta = null;
         }
@@ -195,6 +199,30 @@ public class Usuario {
     }
 
 
+
+    public Tarjeta registrarTarjeta() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
+        int nroTarjeta = Integer.parseInt(scanner.nextLine());
+        String bncoEmisor = scanner.nextLine();
+        String marcaTarjeta = scanner.nextLine();
+        Tarjeta t = new Tarjeta(nroTarjeta, bncoEmisor, marcaTarjeta);
+        System.out.println("Desea confirmar el ingreso de la tarjeta:" + System.lineSeparator() + "Nro:" + t.getNroTarjeta() + System.lineSeparator() + "Marca:" + t.getMarcaTarjeta() + System.lineSeparator() + "Banco:" + t.getBanco());
+        System.out.println("1= Sí; 0=No");
+        int i = Integer.parseInt(scanner.nextLine());
+        if (i == 1)
+            return t;
+        else
+        {
+            System.out.println("Desea registrar la tarjeta nuevamente?");
+            System.out.println("1= Sí; 0=No");
+            i = Integer.parseInt(scanner.nextLine());
+            if (i == 1)
+                return t = registrarTarjeta();
+            else t=null;
+        }
+        return t;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -55,6 +55,7 @@ public class Sistemas {
     }
 
 
+
     //Metodos de Seleccion de origen y destino
     public Set<Pair<String, String>> listarCiudades(List<Empresa> empresas_totales) {
         Set<Pair<String, String>> pares = new HashSet<>();
@@ -166,18 +167,9 @@ public class Sistemas {
     {
         Scanner scanner = new Scanner(System.in);
         Tarjeta t;
-        if (pasajero.getTarjeta() != null)
-            t = pasajero.getTarjeta();
-
-        else
-        {
-            System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
-            int nroTarjeta = Integer.parseInt(scanner.nextLine());
-            String bncoEmisor = scanner.nextLine();
-            String marcaTarjeta = scanner.nextLine();
-            t = new Tarjeta(nroTarjeta,bncoEmisor,marcaTarjeta);
-
-        }
+        if (pasajero.getTarjeta() == null)
+                pasajero.registrarTarjeta();
+        t = pasajero.getTarjeta();
         if (asientosSeleccionados.size() == 1)
             asientosSeleccionados.get(0).setPasajero(pasajero);
         else{

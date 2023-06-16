@@ -31,7 +31,6 @@ public class Tarjeta {
         return  this.marcaTarjeta;
     }
 
-
     public void recargarTarjeta(double i)
     {
         this.saldo = this.saldo + i;
