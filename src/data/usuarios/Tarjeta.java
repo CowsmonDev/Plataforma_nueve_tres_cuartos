@@ -45,4 +45,13 @@ public class Tarjeta {
         //Calcula y devuelve el nuevo saldo de la tarjeta en caso de que se realizara la compra.
     }
 
+
+    public boolean VerificarDatos (int nroTarjeta,String banco,String marcaTarjeta){
+        // verifico comprobando que sean los datos de su tarjeta, para comparacion de datos
+        return ((this.nroTarjeta == nroTarjeta) && (this.banco == banco )&& (this.marcaTarjeta == marcaTarjeta));
+    }
+
+
 }
+
+

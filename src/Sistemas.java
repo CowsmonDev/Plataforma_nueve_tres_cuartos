@@ -170,6 +170,8 @@ public class Sistemas {
         if (pasajero.getTarjeta() == null)
                 pasajero.registrarTarjeta();
         t = pasajero.getTarjeta();
+        if (t == null)
+            return false; // no queria ingresar una tarjeta, .registrarTarjeta() tiene posibilidad de null
         if (asientosSeleccionados.size() == 1)
             asientosSeleccionados.get(0).setPasajero(pasajero);
         else{
