@@ -23,6 +23,7 @@ public class Empresa implements CSVTransfrom<Empresa> {
     public String getNombre() { return nombre; }
     public String getIdEmpresa() { return id_empresa; }
     public List<Omnibus> getOmnibus() { return omnibus; }
+
     public void setOmnibus(List<Omnibus> omnibus) { this.omnibus = omnibus; }
 
     @Override

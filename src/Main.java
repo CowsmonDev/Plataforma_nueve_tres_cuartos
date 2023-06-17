@@ -6,7 +6,6 @@ import java.util.Set;
 import data.empresas.ListaDeViajes;
 import data.usuarios.Tarjeta;
 import data.usuarios.Usuario;
-import modules.busqueda.Busqueda;
 import modules.busqueda.BusquedaConEmpresa;
 import modules.busqueda.Pair;
 import modules.busqueda.filtros.FiltroCiudadDestino;
