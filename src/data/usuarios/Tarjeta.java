@@ -40,9 +40,8 @@ public class Tarjeta {
         return this.saldo;
     }
 
-    public void calcularNuevoSaldo(Viaje v, int i)
-    {
-        //Calcula y devuelve el nuevo saldo de la tarjeta en caso de que se realizara la compra.
+    public void actualizarSaldo(Viaje v, int i) {
+        this.saldo = this.saldo - (v.getPrecio() * i);
     }
 
 

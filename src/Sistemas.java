@@ -196,20 +196,29 @@ public class Sistemas {
                 }
             }
         }
-        System.out.println("Resumen de compra: " + System.lineSeparator());
+        getResumenCompra(asientosSeleccionados, t, v);
         System.out.println("Asientos seleccionados :");
         listarAsientos(asientosSeleccionados);
-        System.out.println("Nuevo saldo de la tarjeta" + (t.getSaldo() - getMontoAPagar(v,asientosSeleccionados.size())));
         System.out.println("Desea confirmar la compra?");
         System.out.println("1= Sí; 0=No");
         int i = Integer.parseInt(scanner.nextLine());
         if (i == 1) {
             pasajero.pagar(v, asientosSeleccionados.size());
-            // Metodo a implementar en siguientes sprints.
+            for (Asiento a : asientosSeleccionados) {
+                v.getOmnibus().ocuparAsiento(a.getNroAsiento());
+                // Envio de correo de confirmacion al usuario, con informacion detallada de la compra.
+            }
             return true;
         }
         else return false;
 
+    }
+
+    public String getResumenCompra(ArrayList<Asiento> asientosSeleccionados, Tarjeta t, Viaje v) {
+        String result = ("Resumen de compra: " + System.lineSeparator() + "\n" +
+                "Precio total de los pasajes: " + getMontoAPagar(v,asientosSeleccionados.size()) + "\n" +
+                "Nuevo saldo de la tarjeta" + (t.getSaldo() - getMontoAPagar(v,asientosSeleccionados.size())));
+        return result;
     }
 
     public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales, Scanner scanner) {

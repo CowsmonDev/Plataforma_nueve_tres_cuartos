@@ -195,7 +195,7 @@ public class Usuario {
 
     public void pagar(Viaje v, int i)
     {
-        this.getTarjeta().calcularNuevoSaldo(v,i);
+        this.getTarjeta().actualizarSaldo(v,i);
     }
 
 
