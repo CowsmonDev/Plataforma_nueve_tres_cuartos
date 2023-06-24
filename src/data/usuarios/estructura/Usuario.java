@@ -203,7 +203,7 @@ public class Usuario {
         Scanner scanner = new Scanner(System.in);
         while(true){
             System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
-            int nroTarjeta = Integer.parseInt(scanner.nextLine());
+            String nroTarjeta = scanner.nextLine();
             String bncoEmisor = scanner.nextLine();
             String marcaTarjeta = scanner.nextLine();
             Tarjeta t = new Tarjeta(nroTarjeta, bncoEmisor, marcaTarjeta);

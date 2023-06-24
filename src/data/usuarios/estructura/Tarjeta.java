@@ -6,19 +6,21 @@ import data.empresas.estructura.viaje.Viaje;
 
 public class Tarjeta {
 
-    private int nroTarjeta;
+    private String nroTarjeta;
     private String banco;
     private String marcaTarjeta;
 
     private double saldo = 0;
 
-    public Tarjeta(int nroTarjeta,String banco,String marcaTarjeta) {
+    private static int cantNumTarjeta = 16; //en ARG.
+
+    public Tarjeta(String nroTarjeta,String banco,String marcaTarjeta) {
         this.nroTarjeta = nroTarjeta;
         this.banco = banco;
         this.marcaTarjeta = marcaTarjeta;
     }
 
-    public int getNroTarjeta() {
+    public String getNroTarjeta() {
         return this.nroTarjeta;
     }
 
@@ -46,7 +48,13 @@ public class Tarjeta {
 
     public boolean verificarDatos(){
         // Verifico el formato de la tarjeta para que sea valida
-        return true;
+
+
+        String restriccion = "^[a-zA-Z0-9 ]+$";// letras, mayus, num y espacios
+        boolean esMarca = this.marcaTarjeta.matches(restriccion); // verifica que coincida con la expresion dada
+        boolean esBanco = this.banco.matches(restriccion);
+
+        return ((nroTarjeta.length() == this.cantNumTarjeta) && esMarca && esBanco);// devuelve si cumple
     }
 
 }
