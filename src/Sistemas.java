@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import data.usuarios.Tarjeta;
-import data.usuarios.Usuario;
+import data.usuarios.estructura.Tarjeta;
+import data.usuarios.estructura.Usuario;
 import modules.busqueda.BusquedaConEmpresa;
 import modules.busqueda.Pair;
 import modules.busqueda.filtros.FiltroLleno;
@@ -167,11 +167,10 @@ public class Sistemas {
     {
         Scanner scanner = new Scanner(System.in);
         Tarjeta t;
-        if (pasajero.getTarjeta() == null)
-                pasajero.registrarTarjeta();
+        while(!pasajero.hasTarjeta()){
+            pasajero.registrarTarjeta();
+        }
         t = pasajero.getTarjeta();
-        if (t == null)
-            return false; // no queria ingresar una tarjeta, .registrarTarjeta() tiene posibilidad de null
         if (asientosSeleccionados.size() == 1)
             asientosSeleccionados.get(0).setPasajero(pasajero);
         else{

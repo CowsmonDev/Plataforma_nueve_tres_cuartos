@@ -5,9 +5,7 @@ import data.empresas.estructura.Viajes;
 import data.empresas.estructura.empresa.Empresa;
 import data.empresas.estructura.omnibus.Omnibus;
 import data.empresas.estructura.viaje.Viaje;
-import data.usuarios.Administrador;
-
-import java.util.*;
+import data.usuarios.estructura.Administrador;
 
 public class ListaDeViajes extends Viajes {
 

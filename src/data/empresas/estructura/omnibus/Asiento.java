@@ -1,5 +1,5 @@
 package data.empresas.estructura.omnibus;
-import data.usuarios.Usuario;
+import data.usuarios.estructura.Usuario;
 
 public class Asiento {
     private int nroAsiento;

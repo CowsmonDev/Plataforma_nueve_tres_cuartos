@@ -4,7 +4,7 @@ import data.empresas.ListaDeViajes;
 import data.empresas.estructura.empresa.Empresa;
 import data.empresas.estructura.omnibus.Omnibus;
 import data.empresas.estructura.viaje.Viaje;
-import data.usuarios.Administrador;
+import data.usuarios.estructura.Administrador;
 
 import java.util.List;
 

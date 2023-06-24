@@ -1,4 +1,4 @@
-package data.usuarios;
+package data.usuarios.estructura;
 
 
 import java.util.ArrayList;
@@ -25,6 +25,9 @@ public class Usuario {
         this.nickname = nickname;
         this.claveAcceso =contraseña;
         this.mail = mail;
+    }
+    public Usuario(String nombre,String nickname,String apellido, long DNI,String contraseña,String mail){
+        this(nombre,nickname,apellido,DNI,null,contraseña,mail);
     }
 
     public String getApellido() {
@@ -106,9 +109,7 @@ public class Usuario {
         System.out.println("Desea ingresar tarjeta? (y/n): ");
         String resp = scanner.nextLine().toLowerCase();
         if(resp.equals("y")){
-            Tarjeta t = registrarTarjeta();
-            if (t != null)
-                this.tarjeta = registrarTarjeta();
+            this.registrarTarjeta();
         }else{
             tarjeta = null;
         }
@@ -198,31 +199,42 @@ public class Usuario {
         this.getTarjeta().actualizarSaldo(v,i);
     }
 
-
-
-    public Tarjeta registrarTarjeta() {
+    public void registrarTarjeta(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
-        int nroTarjeta = Integer.parseInt(scanner.nextLine());
-        String bncoEmisor = scanner.nextLine();
-        String marcaTarjeta = scanner.nextLine();
-        Tarjeta t = new Tarjeta(nroTarjeta, bncoEmisor, marcaTarjeta);
-        System.out.println("Desea confirmar el ingreso de la tarjeta:" + System.lineSeparator() + "Nro:" + t.getNroTarjeta() + System.lineSeparator() + "Marca:" + t.getMarcaTarjeta() + System.lineSeparator() + "Banco:" + t.getBanco());
-        System.out.println("1= Sí; 0=No");
-        int i = Integer.parseInt(scanner.nextLine());
-        if (i == 1)
-            return t;
-        else
-        {
-            System.out.println("Desea registrar la tarjeta nuevamente?");
-            System.out.println("1= Sí; 0=No");
-            i = Integer.parseInt(scanner.nextLine());
-            if (i == 1)
-                return t = registrarTarjeta();
-            else t=null;
+        while(true){
+            System.out.println("Ingrese los siguientes campos de la tarjeta: numero de tarjeta, banco emisor, marca de tarjeta de credito");
+            int nroTarjeta = Integer.parseInt(scanner.nextLine());
+            String bncoEmisor = scanner.nextLine();
+            String marcaTarjeta = scanner.nextLine();
+            Tarjeta t = new Tarjeta(nroTarjeta, bncoEmisor, marcaTarjeta);
+            if(t.verificarDatos()){
+                // Confirmacion de La tarjeta Ingresada
+                System.out.println("Desea confirmar el ingreso de la tarjeta:" + System.lineSeparator() + "Nro:" + t.getNroTarjeta() + System.lineSeparator() + "Marca:" + t.getMarcaTarjeta() + System.lineSeparator() + "Banco:" + t.getBanco());
+                System.out.println("1= Sí; 0=No");
+                int i = Integer.parseInt(scanner.nextLine());
+                if (i == 1){
+                    this.tarjeta = t;
+                    return;
+                }
+
+                // Reitero del Bucle
+                System.out.println("Desea registrar la tarjeta nuevamente?");
+                System.out.println("1= Sí; 0=No");
+                i = Integer.parseInt(scanner.nextLine());
+                if (i == 0){
+                    return;
+                }
+            }else{
+                System.out.println("Los datos ingresados no son validos, Ingreselo de vuelta");
+            }
         }
-        return t;
     }
+
+    public boolean hasTarjeta(){
+        return tarjeta != null;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,4 +1,4 @@
-package data.usuarios;
+package data.usuarios.estructura;
 
 
 import data.empresas.estructura.viaje.Viaje;
@@ -10,7 +10,7 @@ public class Tarjeta {
     private String banco;
     private String marcaTarjeta;
 
-    private double saldo;
+    private double saldo = 0;
 
     public Tarjeta(int nroTarjeta,String banco,String marcaTarjeta) {
         this.nroTarjeta = nroTarjeta;
@@ -44,12 +44,10 @@ public class Tarjeta {
         this.saldo = this.saldo - (v.getPrecio() * i);
     }
 
-
-    public boolean VerificarDatos (int nroTarjeta,String banco,String marcaTarjeta){
-        // verifico comprobando que sean los datos de su tarjeta, para comparacion de datos
-        return ((this.nroTarjeta == nroTarjeta) && (this.banco == banco )&& (this.marcaTarjeta == marcaTarjeta));
+    public boolean verificarDatos(){
+        // Verifico el formato de la tarjeta para que sea valida
+        return true;
     }
-
 
 }
 

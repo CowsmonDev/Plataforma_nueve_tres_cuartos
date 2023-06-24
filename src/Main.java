@@ -4,8 +4,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 import data.empresas.ListaDeViajes;
-import data.usuarios.Tarjeta;
-import data.usuarios.Usuario;
+import data.usuarios.estructura.Tarjeta;
+import data.usuarios.estructura.Usuario;
 import modules.busqueda.BusquedaConEmpresa;
 import modules.busqueda.Pair;
 import modules.busqueda.filtros.FiltroCiudadDestino;
