@@ -55,12 +55,13 @@ public class Tarjeta implements data.db.cvs.CSVTransfrom<Tarjeta>{
     public static boolean verificarDatos(Tarjeta t){
         // Verifico el formato de la tarjeta para que sea valida
 
-
+        String restriccion2 = "^[0-9]+$"; // solo numeros
         String restriccion = "^[a-zA-Z0-9 ]+$";// letras, mayus, num y espacios
         boolean esMarca = t.marcaTarjeta.matches(restriccion); // verifica que coincida con la expresion dada
         boolean esBanco = t.banco.matches(restriccion);
+        boolean esNroTarjeta = t.nroTarjeta.matches(restriccion2);
 
-        return ((t.nroTarjeta.length() == Tarjeta.cantNumTarjeta) && esMarca && esBanco);// devuelve si cumple
+        return (esNroTarjeta && (t.nroTarjeta.length() == Tarjeta.cantNumTarjeta) && esMarca && esBanco);// devuelve si cumple
     }
 
     public boolean verificarDatos(){
