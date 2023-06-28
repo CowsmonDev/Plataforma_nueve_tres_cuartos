@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import data.usuarios.Usuarios;
 import data.usuarios.estructura.Tarjeta;
 import data.usuarios.estructura.Usuario;
 import modules.busqueda.BusquedaConEmpresa;
@@ -23,38 +24,10 @@ import data.empresas.estructura.omnibus.Asiento;
 import data.empresas.estructura.empresa.Empresa;
 import data.empresas.estructura.omnibus.Omnibus;
 import data.empresas.estructura.viaje.Viaje;
+
 public class Sistemas {
 
-
-    private ArrayList<Usuario> clientes = new ArrayList<>();
-
-    public void AgregarCliente(Usuario cliente)
-    {
-        this.clientes.add(cliente);
-    }
-
-    public String Login(){
-        String nombre;
-        String password;
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Ingrese su nick: ");
-        nombre = scanner.nextLine();
-
-        System.out.println("Ingrese su contraseña: ");
-        password = scanner.nextLine();
-
-        Usuario us = new Usuario("", nombre, password,0, null,"" ,"" );
-        Usuario aux = us.validarLogueo(clientes);
-        if(aux != null){  //valido que exista ese usuario 
-            if(aux.getClaveAcceso() == password){  //valido que se haya ingresado la contraseña correcta
-                return "Logueado";
-            }
-        }
-        return "Algo salio mal, logueese nuevamente";
-    }
-
-
+    private final Usuarios usuarios = Usuarios.getInstance();
 
     //Metodos de Seleccion de origen y destino
     public Set<Pair<String, String>> listarCiudades(List<Empresa> empresas_totales) {
@@ -141,22 +114,7 @@ public class Sistemas {
         }
     }
 
-    private Usuario clienteCoincidiente(int DNI)
-    {
-        for (Usuario cliente: clientes) {
-            if (cliente.getDNI() == DNI)
-                return cliente;
-        }
-        return null;
-    }
 
-    private void listarAsientos(ArrayList<Asiento> asientosSeleccionados)
-    {
-        for (Asiento a: asientosSeleccionados)
-        {
-            System.out.println(a.getNroAsiento());
-        }
-    }
 
     private double getMontoAPagar(Viaje v, int i)
     {
@@ -176,16 +134,13 @@ public class Sistemas {
         else{
             for (int i = 0; i < asientosSeleccionados.size(); i++) {
                 System.out.println("Ingrese el DNI del pasajero que ocupara el asiento");
-                int DNI = Integer.parseInt(scanner.nextLine());
-                if (clienteCoincidiente(DNI) != null)
-                {
-                    asientosSeleccionados.get(i).setPasajero(clienteCoincidiente(DNI));
+                String DNI = scanner.nextLine();
+                if(usuarios.exists(DNI)){
+                    asientosSeleccionados.get(i).setPasajero(usuarios.getUser(DNI));
                 }
                 else
                 {
-
                     System.out.println("Ingrese nombre y apellido para el pasajero del asiento: " + asientosSeleccionados.get(i).getNroAsiento() + System.lineSeparator());
-
                     System.out.println("Nombre:");
                     String nombre = scanner.nextLine();
                     System.out.println("Apellido:");
@@ -197,7 +152,7 @@ public class Sistemas {
         }
         getResumenCompra(asientosSeleccionados, t, v);
         System.out.println("Asientos seleccionados :");
-        listarAsientos(asientosSeleccionados);
+        asientosSeleccionados.forEach(asiento -> System.out.println(asiento.getNroAsiento())); // Imprimir los asientos seleccionados
         System.out.println("Desea confirmar la compra?");
         System.out.println("1= Sí; 0=No");
         int i = Integer.parseInt(scanner.nextLine());
@@ -214,10 +169,9 @@ public class Sistemas {
     }
 
     public String getResumenCompra(ArrayList<Asiento> asientosSeleccionados, Tarjeta t, Viaje v) {
-        String result = ("Resumen de compra: " + System.lineSeparator() + "\n" +
+        return "Resumen de compra: " + System.lineSeparator() + "\n" +
                 "Precio total de los pasajes: " + getMontoAPagar(v,asientosSeleccionados.size()) + "\n" +
-                "Nuevo saldo de la tarjeta" + (t.getSaldo() - getMontoAPagar(v,asientosSeleccionados.size())));
-        return result;
+                "Nuevo saldo de la tarjeta" + (t.getSaldo() - getMontoAPagar(v,asientosSeleccionados.size()));
     }
 
     public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales, Scanner scanner) {

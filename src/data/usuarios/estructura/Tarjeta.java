@@ -4,8 +4,9 @@ package data.usuarios.estructura;
 import data.empresas.estructura.viaje.Viaje;
 
 
-public class Tarjeta {
+public class Tarjeta implements data.db.cvs.CSVTransfrom<Tarjeta>{
 
+    private String dniCliente;
     private String nroTarjeta;
     private String banco;
     private String marcaTarjeta;
@@ -14,10 +15,15 @@ public class Tarjeta {
 
     private static int cantNumTarjeta = 16; //en ARG.
 
-    public Tarjeta(String nroTarjeta,String banco,String marcaTarjeta) {
+    public Tarjeta(String dniCliente, String nroTarjeta,String banco,String marcaTarjeta) {
+        this.dniCliente = dniCliente;
         this.nroTarjeta = nroTarjeta;
         this.banco = banco;
         this.marcaTarjeta = marcaTarjeta;
+    }
+
+    public Tarjeta(){
+        this("","","","");
     }
 
     public String getNroTarjeta() {
@@ -46,17 +52,36 @@ public class Tarjeta {
         this.saldo = this.saldo - (v.getPrecio() * i);
     }
 
-    public boolean verificarDatos(){
+    public static boolean verificarDatos(Tarjeta t){
         // Verifico el formato de la tarjeta para que sea valida
 
 
         String restriccion = "^[a-zA-Z0-9 ]+$";// letras, mayus, num y espacios
-        boolean esMarca = this.marcaTarjeta.matches(restriccion); // verifica que coincida con la expresion dada
-        boolean esBanco = this.banco.matches(restriccion);
+        boolean esMarca = t.marcaTarjeta.matches(restriccion); // verifica que coincida con la expresion dada
+        boolean esBanco = t.banco.matches(restriccion);
 
-        return ((nroTarjeta.length() == this.cantNumTarjeta) && esMarca && esBanco);// devuelve si cumple
+        return ((t.nroTarjeta.length() == Tarjeta.cantNumTarjeta) && esMarca && esBanco);// devuelve si cumple
     }
 
+    public boolean verificarDatos(){
+        return Tarjeta.verificarDatos(this);
+    }
+
+    public String getDniCliente() {
+        return dniCliente;
+    }
+
+    @Override
+    public Tarjeta transformFromCSV(String[] data) {
+        if(data.length == 4)
+            return new Tarjeta(data[0], data[1], data[2], data[3]);
+        return null;
+    }
+
+    @Override
+    public String transformToCSV() {
+        return this.dniCliente + "," + this.nroTarjeta + "," + this.banco + "," + this.marcaTarjeta;
+    }
 }
 
 
