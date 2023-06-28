@@ -1,6 +1,7 @@
 package data.usuarios.estructura;
 
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class Usuario implements CSVTransfrom<Usuario> {
     private Tarjeta tarjeta;
     private String claveAcceso;
     private String mail;
+    private ArrayList<String> correos;
 
     public Usuario(String nombre,String nickname,String apellido, String DNI, Tarjeta tarjeta,String contraseña,String mail)
     {
@@ -25,6 +27,7 @@ public class Usuario implements CSVTransfrom<Usuario> {
         this.nickname = nickname;
         this.claveAcceso =contraseña;
         this.mail = mail;
+        ArrayList<String> correos = new ArrayList<>();
     }
     public Usuario(String nombre,String nickname,String apellido, String DNI,String contraseña,String mail){
         this(nombre,nickname,apellido,DNI,null,contraseña,mail);
@@ -75,6 +78,11 @@ public class Usuario implements CSVTransfrom<Usuario> {
     }
 
     public void setTarjeta(Tarjeta t){this.tarjeta = t;}
+
+    public void addCorreo(String correo) {
+        String confirm = "Compra de pasaje/s confirmada." + "\n" + correo;
+        this.correos.add(confirm);
+    }
 
     public void cargarSaldoTarjeta(double i)
     {

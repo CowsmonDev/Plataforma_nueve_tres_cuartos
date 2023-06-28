@@ -150,7 +150,8 @@ public class Sistemas {
                 }
             }
         }
-        getResumenCompra(asientosSeleccionados, t, v);
+        String resumen = getResumenCompra(asientosSeleccionados, t, v); // Para que no se recalcule el saldo cuando se vuelve a usar el resumen en correo.
+        System.out.println(resumen);
         System.out.println("Asientos seleccionados :");
         asientosSeleccionados.forEach(asiento -> System.out.println(asiento.getNroAsiento())); // Imprimir los asientos seleccionados
         System.out.println("Desea confirmar la compra?");
@@ -160,12 +161,16 @@ public class Sistemas {
             pasajero.pagar(v, asientosSeleccionados.size());
             for (Asiento a : asientosSeleccionados) {
                 v.getOmnibus().ocuparAsiento(a.getNroAsiento());
-                // Envio de correo de confirmacion al usuario, con informacion detallada de la compra.
+                enviarCorreo(resumen, pasajero);
             }
             return true;
         }
         else return false;
 
+    }
+
+    void enviarCorreo(String correo, Usuario pasajero) {
+        pasajero.addCorreo(correo);
     }
 
     public String getResumenCompra(ArrayList<Asiento> asientosSeleccionados, Tarjeta t, Viaje v) {
