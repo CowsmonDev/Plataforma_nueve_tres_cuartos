@@ -1,4 +1,4 @@
-package modules.gestor_omnibus;
+package modules;
 
 import data.empresas.ListaDeViajes;
 import data.empresas.estructura.empresa.Empresa;

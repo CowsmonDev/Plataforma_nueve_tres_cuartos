@@ -1,120 +1,110 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
+import data.empresas.ListaDeViajes;
+import data.empresas.estructura.omnibus.Omnibus;
 import data.usuarios.Usuarios;
 import data.usuarios.estructura.Tarjeta;
 import data.usuarios.estructura.Usuario;
-import modules.busqueda.BusquedaConEmpresa;
-import modules.busqueda.Pair;
-import modules.busqueda.filtros.FiltroLleno;
-import modules.busqueda.filtros.FiltroNot;
-import modules.busqueda.filtros.Filtros;
-import modules.busqueda.filtros.FiltrosAND;
-import modules.busqueda.filtros.FiltrosFechaEnAdelante;
-import modules.busqueda.filtros.FiltrosFechaExacta;
+import modules.BuscarViajes;
 import data.empresas.estructura.omnibus.Asiento;
-import data.empresas.estructura.empresa.Empresa;
-import data.empresas.estructura.omnibus.Omnibus;
 import data.empresas.estructura.viaje.Viaje;
+import modules.Login;
+
+class Menu{
+    public static final List<String> opcionesSinLogin = new ArrayList<>(List.of("1. Iniciar sesion", "2. Registrarse", "3. Buscar viajes", "4. Salir"));
+    public static final List<String> opcionesConLogin = new ArrayList<>(List.of("1. Buscar viajes", "2. Cerrar Session", "3. Salir"));
+    public static final List<String> opcionesConLoginAdmin = new ArrayList<>(List.of("1. Buscar viajes", "2. Gestionar Empresas" ,"3. Cerrar Session", "4. Salir"));
+
+    public static final String menuSinLogin = "1. Iniciar sesion\n2. Registrarse\n3. Buscar viajes\n4. Salir\nIngrese una opcion: ";
+    public static final String menuConLogin = "1. Buscar viajes\n2. Cerrar Sesion\n3. Salir\nIngrese una opcion: ";
+    public static final String menuConLoginAdmin = "1. Buscar viajes\n2. Gestionar Empresas\n3. Cerrar Sesion\n4. Salir\nIngrese una opcion: ";
+}
 
 public class Sistemas {
 
     private final Usuarios usuarios = Usuarios.getInstance();
+    private final Login login = new Login();
+    private final BuscarViajes buscarViajes = new BuscarViajes();
 
-    //Metodos de Seleccion de origen y destino
-    public Set<Pair<String, String>> listarCiudades(List<Empresa> empresas_totales) {
-        Set<Pair<String, String>> pares = new HashSet<>();
-
-        BusquedaConEmpresa b = new BusquedaConEmpresa();
-        b.setFiltroViajes(new FiltrosFechaEnAdelante(new Date()));
-        List<Empresa> empresas = b.buscar(empresas_totales);
-
-        System.out.println("Ciudades posibles:");
-        for (Empresa e : empresas) {
-            for (Omnibus o : e.getOmnibus()) {
-                for (Viaje v : o.getViajes()) {
-                    Pair<String, String> par = new Pair<>(v.getOrigen(), v.getDestino());
-                    pares.add(par);
+    private void buscarViajes(){
+        Omnibus omnibusIda = buscarViajes.run().getOmnibus();
+        ArrayList<Asiento> listaAsientos = buscarViajes.seleccionarAsientos(omnibusIda);
+        boolean seConfirmaCompra = realizarCompra(login.getUs(), omnibusIda.getViajes().get(0), listaAsientos);
+        while (!login.isLogin()){
+            System.out.println("Necesita estar logueado para terminar la compra\n");
+            boolean exito = login.loguearse();
+            if(!exito){
+                System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
+                Scanner scanner = new Scanner(System.in);
+                String respuesta = scanner.nextLine();
+                if(respuesta.equals("n")){
+                    scanner.close();
+                    return;
                 }
+                scanner.close();
             }
         }
-
-        // Imprimir la lista de pares
-        for (Pair<String, String> par : pares) {
-            System.out.println("Origen: " + par.getFirst() + ", Destino: " + par.getSecond());
-        }
-        return pares;
+        if(seConfirmaCompra)
+            for (Asiento a: listaAsientos)
+                omnibusIda.ocuparAsiento(a.getNroAsiento());
+        System.out.println("Asientos Ocupados: " + omnibusIda.getOcupados());
+        System.out.println("Capacidad Maxima: " + omnibusIda.getCapacidad());
+        omnibusIda.esquemaAsiento();
     }
 
-    public Pair<String, String> elegirCiudades(Set<Pair<String, String>> ciudades){
+    private void menuSinLogin(int opcion){
+        switch (opcion) {
+            case 1 -> {
+                boolean exito = login.loguearse();
+                while(!exito){
+                    System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
+                    Scanner scanner = new Scanner(System.in);
+                    String respuesta = scanner.nextLine();
+                    scanner.close();
+                    if(respuesta.equals("y")){
+                        exito = login.loguearse();
+                    }else
+                        return;
+                }
+            }
+            case 2 -> buscarViajes();
+        }
+    }
+    private void menuConLogin(int opcion){
+        switch (opcion) {
+            case 1 ->
+                buscarViajes();
+            case 2 -> {
+                login.closeLogin();
+                System.out.println("Cerrado de sesion exitoso");
+            }
+        }
+    }
+
+    public void run() {
+        List<String> menu = Menu.opcionesSinLogin;
+
+        System.out.println(Menu.menuSinLogin);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Elegir ciudad origen: ");
-        String origen = scanner.nextLine();
-        System.out.println("Elegir ciudad destino");
-        String destino = scanner.nextLine();
-
-        Pair<String, String> ciudad = new Pair<>(origen, destino);
+        int opcion = scanner.nextInt();
         scanner.close();
-        return ciudad;
-    }
-    
-    //funcion para filtrado de omnibuses
-    public List<Empresa> posiblesOmn(List<Empresa> empresas_totales, Filtros<Omnibus> f1){
 
-        //creo una busqueda y la filtro con el parametro f1
-        BusquedaConEmpresa b = new BusquedaConEmpresa();
-        f1 = (f1 != null)? new FiltrosAND<>(f1, new FiltroNot<>(new FiltroLleno()))
-                : new FiltroNot<>(new FiltroLleno());
-
-        b.setFiltroOmnibus(f1);
-
-        return b.buscar(empresas_totales);
-    }
-
-    public Viaje elegirViaje(List<Empresa> empresas_totales, Scanner sc){
-        Map<Integer, Viaje> viaje = new HashMap<>();
-        Integer i = 0;
-        for (Empresa e : empresas_totales){
-            for (Omnibus o : e.getOmnibus()){
-                for (Viaje v : o.getViajes()){
-                    System.out.println(i + " - " + v.toString());
-                    viaje.put(i, v);
-                    i++;
-                }
+        while (opcion > 0 && opcion < menu.size()){
+            if(login.isLogin()) {
+                menuConLogin(opcion);
+                System.out.println(Menu.menuConLogin);
+            }else{
+                menuSinLogin(opcion);
+                System.out.println(Menu.menuSinLogin);
             }
         }
-        //int viajeElegido = sc.nextInt();
-        int viajeElegido = 0;
-        while (!viaje.containsKey(viajeElegido)){
-            System.out.println("Viaje no valido, ingrese otro");
-            viajeElegido = sc.nextInt();
-        }
-        return viaje.get(viajeElegido);
-    }
-    public ArrayList<Asiento> seleccionarAsientos(Omnibus o, Scanner scanner) {
-        o.esquemaAsiento();
-        ArrayList<Asiento> asientosSeleccionados = new ArrayList<>();
-        while (true){
-            System.out.println(System.lineSeparator() + "Ingrese el asiento que quiera seleccionar.");
-            int i = Integer.parseInt(scanner.nextLine());
-            asientosSeleccionados.add(new Asiento(i));
-            System.out.println("Desea seleccionar otro asiento?" + System.lineSeparator() + "1 = SI" + System.lineSeparator() + "0 = NO" );
-            i = Integer.parseInt(scanner.nextLine());
-            if(i != 1){
-                return asientosSeleccionados;
-            }
-        }
-    }
+        System.out.println("Gracias por usar el sistema");
 
-
+        Usuarios.getInstance().close();
+        ListaDeViajes.getInstance().close();
+    }
 
     private double getMontoAPagar(Viaje v, int i)
     {
@@ -179,46 +169,5 @@ public class Sistemas {
                 "Nuevo saldo de la tarjeta" + (t.getSaldo() - getMontoAPagar(v,asientosSeleccionados.size()));
     }
 
-    public Pair<List<Empresa>, List<Empresa>> elegirFechas(List<Empresa> empresas_totales, Scanner scanner) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        System.out.println("Elegir fecha ida (dd/MM/yyyy): ");
-        //String ida = scanner.nextLine();
-        String ida = "26/07/2023";
-
-        Date fechaIda = new Date();
-        try {
-            fechaIda = dateFormat.parse(ida);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-
-        BusquedaConEmpresa b = new BusquedaConEmpresa();
-
-        Filtros<Viaje> f1 = new FiltrosFechaExacta(fechaIda);
-        b.setFiltroViajes(f1);
-        List<Empresa> empresasIda = b.buscar(empresas_totales);
-
-        System.out.println("Desea elegir fecha de vuelta? (y/n): ");
-        //String resp = scanner.nextLine();
-        String resp = "n";
-
-        List<Empresa> empresasVuelta = null;
-        if (resp.equals("y")) {
-            System.out.println("Elegir fecha vuelta (dd/MM/yyyy): ");
-            String vuelta = scanner.nextLine();
-
-            Date fechaVuelta = new Date();
-            try {
-                fechaVuelta = dateFormat.parse(vuelta);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-
-            Filtros<Viaje> f2 = new FiltrosFechaExacta(fechaVuelta);
-            b.setFiltroViajes(f2);
-            empresasVuelta = b.buscar(empresas_totales);
-        }
-        return new Pair<>(empresasIda, empresasVuelta);
-    }
 }

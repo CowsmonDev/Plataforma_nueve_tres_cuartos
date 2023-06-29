@@ -1,4 +1,4 @@
-package modules.login;
+package modules;
 
 import data.usuarios.Usuarios;
 import data.usuarios.estructura.Usuario;
@@ -10,7 +10,7 @@ public class Login {
     private final Usuarios clientes = Usuarios.getInstance();
     private Usuario us = null;
 
-    public String loguearse(){
+    public boolean loguearse(){
         String dni;
         String password;
         Scanner scanner = new Scanner(System.in);
@@ -26,23 +26,15 @@ public class Login {
         if(us != null){  //valido que exista ese usuario
             if(us.getClaveAcceso().equals(password)){  //valido que se haya ingresado la contraseña correcta
                 this.us = us;
-                return "Logueado";
+                return true;
             }
         }
-        return "Algo salio mal, logueese nuevamente";
+        return false;
     }
 
-    public Usuario getUs() {
-        return us;
-    }
 
-    public void closeLogin(){
-        if(us != null){
-            us = null;
-        }
-    }
 
-    public void registrarse() {
+    public boolean registrarse() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Ingrese su nombre: ");
@@ -60,7 +52,7 @@ public class Login {
         // Validar datos personales
         if (this.clientes.exists(DNI)) {
             System.out.println("ERROR. DNI existente en el sistema.");
-            return;
+            return false;
         }
 
         System.out.println("Ingrese clave de acceso. (debe contener al menos 8 caracteres, minuscula/s, mayuscula/s y al menos un numero)");
@@ -99,6 +91,7 @@ public class Login {
 
         System.out.println("Registro completado exitosamente.");
         scanner.close();
+        return true;
     }
 
     public boolean validarClaveAcceso(String claveAcceso) {
@@ -125,6 +118,20 @@ public class Login {
         }
 
         return false;
+    }
+
+    public Usuario getUs() {
+        return us;
+    }
+
+    public boolean isLogin(){
+        return us != null;
+    }
+
+    public void closeLogin(){
+        if(us != null){
+            us = null;
+        }
     }
 
 }
