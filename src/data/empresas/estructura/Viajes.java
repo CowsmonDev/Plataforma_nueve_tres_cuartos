@@ -3,6 +3,9 @@ package data.empresas.estructura;
 import data.empresas.estructura.empresa.Empresa;
 import data.empresas.estructura.omnibus.Omnibus;
 import data.empresas.estructura.viaje.Viaje;
+import modules.busqueda.Busqueda;
+import modules.busqueda.BusquedaConEmpresa;
+import modules.busqueda.filtros.ViajeIgual;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,8 +44,6 @@ public class Viajes {
             hashEmpresas.put(e.getIdEmpresa(), e);
         }
     }
-
-
 
     @Override
     public String toString() {
@@ -93,6 +94,14 @@ public class Viajes {
     // Getters de Viajes
     public List<Viaje> getViajes() {
         return viajes;
+    }
+
+    public Viaje getViaje(Viaje viaje){
+        return this.viajes.stream().filter(v -> v.equals(viaje)).findFirst().orElse(null);
+    }
+
+    public boolean containsViaje(Viaje viaje){
+        return this.getViaje(viaje) != null;
     }
 
 }

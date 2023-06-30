@@ -1,14 +1,17 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import data.empresas.ListaDeViajes;
 import data.empresas.estructura.omnibus.Omnibus;
 import data.usuarios.Usuarios;
+import data.usuarios.estructura.Administrador;
 import data.usuarios.estructura.Tarjeta;
 import data.usuarios.estructura.Usuario;
 import modules.BuscarViajes;
 import data.empresas.estructura.omnibus.Asiento;
 import data.empresas.estructura.viaje.Viaje;
+import modules.GestionEmpresas;
 import modules.Login;
 
 public class Sistemas {
@@ -16,14 +19,15 @@ public class Sistemas {
     private final Usuarios usuarios = Usuarios.getInstance();
     private final Login login = new Login();
     private final BuscarViajes buscarViajes = new BuscarViajes();
+    private final GestionEmpresas gestionEmpresas = new GestionEmpresas(List.of(new Administrador()));
 
     public void startMenu() {
         String menuSinLogin = "1. Buscar viajes\n2. Iniciar sesion\n3. Registrarse\n4. Salir\nIngrese una opcion: ";
-        String menuConLogin = "1. Buscar viajes\n2. Cerrar Sesion\n3. Salir\nIngrese una opcion: ";
+        String menuConLogin = "1. Buscar viajes\n2. Gestion Empresas\n3. Cerrar Sesion\n4. Salir\nIngrese una opcion: ";
         String menu = login.isLogin() ? menuConLogin : menuSinLogin;
         int menuSize = 4;
 
-        System.out.println(menu);
+        System.out.print(menu);
         Scanner scanner = new Scanner(System.in);
         int opcion = scanner.nextInt();
         scanner.close();
@@ -32,12 +36,11 @@ public class Sistemas {
             if(opcion == 1){
                 buscarViajes();
             }else if(opcion == 2){
-                if(login.isLogin()){
+                if(login.isLogin()){ // Cerrar sesion
                     login.closeLogin();
                     menu = menuSinLogin;
-                    menuSize = 4;
                     System.out.println("Cerrado de sesion exitoso");
-                }else{
+                }else{ // Iniciar sesion
                     boolean exito = login.loguearse();
                     while(!exito){
                         System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
@@ -49,10 +52,27 @@ public class Sistemas {
                             break;
                     }
                     menu = menuConLogin;
-                    menuSize = 3;
+                }
+            }else {
+                if(login.isLogin()){ // Gestion de Empresa
+                    gestionEmpresas.startMenu();
+                }else{ // Registrarse
+                    boolean exito = login.registrarse();
+                    while(!exito){
+                        System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
+                        String respuesta = scanner.nextLine();
+                        scanner.close();
+                        if(respuesta.equals("y")){
+                            exito = login.registrarse();
+                        }else
+                            break;
+                    }
                 }
             }
             System.out.println(menu);
+            scanner = new Scanner(System.in);
+            opcion = scanner.nextInt();
+            scanner.close();
         }
         System.out.println("Gracias por usar el sistema");
 
@@ -60,6 +80,10 @@ public class Sistemas {
         ListaDeViajes.getInstance().close();
     }
 
+    /**
+     * Busca viajes y realiza la compra de los asientos seleccionados por el usuario logueado en el sistema.
+     *
+     */
     private void buscarViajes(){
         Omnibus omnibusIda = buscarViajes.run().getOmnibus();
         ArrayList<Asiento> listaAsientos = buscarViajes.seleccionarAsientos(omnibusIda);
@@ -102,21 +126,19 @@ public class Sistemas {
         if (asientosSeleccionados.size() == 1)
             asientosSeleccionados.get(0).setPasajero(pasajero);
         else{
-            for (int i = 0; i < asientosSeleccionados.size(); i++) {
+            for (Asiento asientosSeleccionado : asientosSeleccionados) {
                 System.out.println("Ingrese el DNI del pasajero que ocupara el asiento");
                 String DNI = scanner.nextLine();
-                if(usuarios.exists(DNI)){
-                    asientosSeleccionados.get(i).setPasajero(usuarios.getUser(DNI));
-                }
-                else
-                {
-                    System.out.println("Ingrese nombre y apellido para el pasajero del asiento: " + asientosSeleccionados.get(i).getNroAsiento() + System.lineSeparator());
+                if (usuarios.exists(DNI)) {
+                    asientosSeleccionado.setPasajero(usuarios.getUser(DNI));
+                } else {
+                    System.out.println("Ingrese nombre y apellido para el pasajero del asiento: " + asientosSeleccionado.getNroAsiento() + System.lineSeparator());
                     System.out.println("Nombre:");
                     String nombre = scanner.nextLine();
                     System.out.println("Apellido:");
                     String apellido = scanner.nextLine();
-                    Usuario u = new Usuario(nombre,"",apellido,DNI,null,"","");
-                    asientosSeleccionados.get(i).setPasajero(u);
+                    Usuario u = new Usuario(nombre, "", apellido, DNI, null, "", "");
+                    asientosSeleccionado.setPasajero(u);
                 }
             }
         }

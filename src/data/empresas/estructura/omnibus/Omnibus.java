@@ -6,6 +6,7 @@ import data.empresas.estructura.viaje.Viaje;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class Omnibus implements CSVTransfrom<Omnibus> {
@@ -136,6 +137,25 @@ public class Omnibus implements CSVTransfrom<Omnibus> {
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
         this.idEmpresa = empresa.getIdEmpresa();
+    }
+
+
+    /**
+     * Crea un omnibus con los datos ingresados por el usuario y lo retorna
+     * @return Omnibus creado con los datos ingresados por el usuario
+     */
+    public static Omnibus createOmnibus(){
+        // repetir lo mismo que createEmpresa en el archivo empresa pero con los datos de omnibus
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingrese el id del omnibus");
+        String idOmnibus = scanner.nextLine();
+        System.out.println("Ingrese la velocidad maxima del omnibus");
+        int velMax = scanner.nextInt();
+        System.out.println("Ingrese la cantidad de asientos del omnibus");
+        int asientos = scanner.nextInt();
+        System.out.println("Ingrese el id de la empresa a la que pertenece el omnibus");
+        String idEmpresa = scanner.nextLine();
+        return new Omnibus(idOmnibus, velMax, asientos, idEmpresa);
     }
 
 }

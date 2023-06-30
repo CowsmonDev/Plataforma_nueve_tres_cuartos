@@ -10,16 +10,22 @@ public class Login {
     private final Usuarios clientes = Usuarios.getInstance();
     private Usuario us = null;
 
+    /**
+     * Le solicita a el usuario que ingrese sus datos para poder loguearse
+     * @return retorna un booleano que indica si el logueo fue exitoso o no
+     */
     public boolean loguearse(){
         String dni;
         String password;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese su Dni: ");
+        System.out.print("Ingrese su Dni: " + System.lineSeparator());
         dni = scanner.nextLine();
 
-        System.out.println("Ingrese su contraseña: ");
+        System.out.print("Ingrese su contraseña: " + System.lineSeparator());
         password = scanner.nextLine();
+
+        scanner.close();
 
         Usuario us = clientes.getUser(dni);
 
@@ -32,8 +38,12 @@ public class Login {
         return false;
     }
 
-
-
+    /**
+     * Le solicita a el usuario que ingrese sus datos para poder registrarse
+     * crea un nuevo usuario y lo agrega a la lista de usuarios
+     * el usuario tiene la opcion de crear una tarjeta si lo desea
+     * @return retorna un booleano que indica si el registro fue exitoso o no
+     */
     public boolean registrarse() {
         Scanner scanner = new Scanner(System.in);
 
@@ -94,6 +104,12 @@ public class Login {
         return true;
     }
 
+    /**
+     * Valida que la clave de acceso cumpla con los requisitos
+     * 8 caracteres, minuscula/s, mayuscula/s y al menos un numero
+     * @param claveAcceso clave de acceso a validar si cumple con los requisitos o no
+     * @return retorna un booleano que indica si la clave de acceso es valida o no
+     */
     public boolean validarClaveAcceso(String claveAcceso) {
         if (claveAcceso.length() < 8) {
             return false;

@@ -5,6 +5,7 @@ import data.empresas.estructura.omnibus.Omnibus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Empresa implements CSVTransfrom<Empresa> {
 
@@ -34,5 +35,17 @@ public class Empresa implements CSVTransfrom<Empresa> {
     @Override
     public String transformToCSV() {
         return id_empresa + ";" + nombre;
+    }
+
+    public static Empresa createEmpresa(){
+        // solicitar al usuario que ingrese todos los datos necesarios a travez de Scanner
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingresa el id de la empresa: ");
+        String id_empresa = scanner.nextLine();
+        System.out.println("Ingresa el nombre de la empresa: ");
+        String nombre = scanner.nextLine();
+        scanner.close();
+        // crear el objeto Empresa con los datos ingresados
+        return new Empresa(id_empresa, nombre);
     }
 }

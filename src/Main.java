@@ -1,14 +1,6 @@
-import java.util.List;
-
-import data.empresas.ListaDeViajes;
-import data.empresas.estructura.empresa.Empresa;
-
 public class Main {
 
     public static void main(String[] args) {
-        ListaDeViajes l = ListaDeViajes.getInstance(); //Accede a los elementos de la estructura de Datos
-        List<Empresa> empresas_totales = l.getEmpresas(); //Accede a la lista de empresas y la guarda en e
-
         Sistemas s = new Sistemas();
         s.startMenu();
 
