@@ -17,6 +17,7 @@ public class Usuario implements CSVTransfrom<Usuario> {
     private String claveAcceso;
     private String mail;
     private ArrayList<String> correos;
+    private boolean admin = false;
 
     public Usuario(String nombre,String nickname,String apellido, String DNI, Tarjeta tarjeta,String contraseña,String mail)
     {

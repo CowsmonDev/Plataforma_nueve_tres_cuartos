@@ -166,17 +166,17 @@ public class BuscarViajes {
         Scanner scanner = new Scanner(System.in);
         o.esquemaAsiento();
         ArrayList<Asiento> asientosSeleccionados = new ArrayList<>();
-        while (true){
+        int i = 1;
+        do {
             System.out.println(System.lineSeparator() + "Ingrese el asiento que quiera seleccionar.");
-            int i = Integer.parseInt(scanner.nextLine());
+            i = scanner.nextInt();
             asientosSeleccionados.add(new Asiento(i));
             System.out.println("Desea seleccionar otro asiento?" + System.lineSeparator() + "1 = SI" + System.lineSeparator() + "0 = NO" );
-            i = Integer.parseInt(scanner.nextLine());
-            if(i != 1){
-                scanner.close();
-                return asientosSeleccionados;
-            }
-        }
+            i = scanner.nextInt();
+        }while (i == 1);
+
+        scanner.close();
+        return asientosSeleccionados;
     }
 
 

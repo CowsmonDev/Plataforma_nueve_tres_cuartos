@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import data.empresas.ListaDeViajes;
@@ -12,21 +11,54 @@ import data.empresas.estructura.omnibus.Asiento;
 import data.empresas.estructura.viaje.Viaje;
 import modules.Login;
 
-class Menu{
-    public static final List<String> opcionesSinLogin = new ArrayList<>(List.of("1. Iniciar sesion", "2. Registrarse", "3. Buscar viajes", "4. Salir"));
-    public static final List<String> opcionesConLogin = new ArrayList<>(List.of("1. Buscar viajes", "2. Cerrar Session", "3. Salir"));
-    public static final List<String> opcionesConLoginAdmin = new ArrayList<>(List.of("1. Buscar viajes", "2. Gestionar Empresas" ,"3. Cerrar Session", "4. Salir"));
-
-    public static final String menuSinLogin = "1. Iniciar sesion\n2. Registrarse\n3. Buscar viajes\n4. Salir\nIngrese una opcion: ";
-    public static final String menuConLogin = "1. Buscar viajes\n2. Cerrar Sesion\n3. Salir\nIngrese una opcion: ";
-    public static final String menuConLoginAdmin = "1. Buscar viajes\n2. Gestionar Empresas\n3. Cerrar Sesion\n4. Salir\nIngrese una opcion: ";
-}
-
 public class Sistemas {
 
     private final Usuarios usuarios = Usuarios.getInstance();
     private final Login login = new Login();
     private final BuscarViajes buscarViajes = new BuscarViajes();
+
+    public void startMenu() {
+        String menuSinLogin = "1. Buscar viajes\n2. Iniciar sesion\n3. Registrarse\n4. Salir\nIngrese una opcion: ";
+        String menuConLogin = "1. Buscar viajes\n2. Cerrar Sesion\n3. Salir\nIngrese una opcion: ";
+        String menu = login.isLogin() ? menuConLogin : menuSinLogin;
+        int menuSize = 4;
+
+        System.out.println(menu);
+        Scanner scanner = new Scanner(System.in);
+        int opcion = scanner.nextInt();
+        scanner.close();
+
+        while (opcion > 0 && opcion < menuSize){
+            if(opcion == 1){
+                buscarViajes();
+            }else if(opcion == 2){
+                if(login.isLogin()){
+                    login.closeLogin();
+                    menu = menuSinLogin;
+                    menuSize = 4;
+                    System.out.println("Cerrado de sesion exitoso");
+                }else{
+                    boolean exito = login.loguearse();
+                    while(!exito){
+                        System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
+                        String respuesta = scanner.nextLine();
+                        scanner.close();
+                        if(respuesta.equals("y")){
+                            exito = login.loguearse();
+                        }else
+                            break;
+                    }
+                    menu = menuConLogin;
+                    menuSize = 3;
+                }
+            }
+            System.out.println(menu);
+        }
+        System.out.println("Gracias por usar el sistema");
+
+        Usuarios.getInstance().close();
+        ListaDeViajes.getInstance().close();
+    }
 
     private void buscarViajes(){
         Omnibus omnibusIda = buscarViajes.run().getOmnibus();
@@ -52,58 +84,6 @@ public class Sistemas {
         System.out.println("Asientos Ocupados: " + omnibusIda.getOcupados());
         System.out.println("Capacidad Maxima: " + omnibusIda.getCapacidad());
         omnibusIda.esquemaAsiento();
-    }
-
-    private void menuSinLogin(int opcion){
-        switch (opcion) {
-            case 1 -> {
-                boolean exito = login.loguearse();
-                while(!exito){
-                    System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
-                    Scanner scanner = new Scanner(System.in);
-                    String respuesta = scanner.nextLine();
-                    scanner.close();
-                    if(respuesta.equals("y")){
-                        exito = login.loguearse();
-                    }else
-                        return;
-                }
-            }
-            case 2 -> buscarViajes();
-        }
-    }
-    private void menuConLogin(int opcion){
-        switch (opcion) {
-            case 1 ->
-                buscarViajes();
-            case 2 -> {
-                login.closeLogin();
-                System.out.println("Cerrado de sesion exitoso");
-            }
-        }
-    }
-
-    public void run() {
-        List<String> menu = Menu.opcionesSinLogin;
-
-        System.out.println(Menu.menuSinLogin);
-        Scanner scanner = new Scanner(System.in);
-        int opcion = scanner.nextInt();
-        scanner.close();
-
-        while (opcion > 0 && opcion < menu.size()){
-            if(login.isLogin()) {
-                menuConLogin(opcion);
-                System.out.println(Menu.menuConLogin);
-            }else{
-                menuSinLogin(opcion);
-                System.out.println(Menu.menuSinLogin);
-            }
-        }
-        System.out.println("Gracias por usar el sistema");
-
-        Usuarios.getInstance().close();
-        ListaDeViajes.getInstance().close();
     }
 
     private double getMontoAPagar(Viaje v, int i)
