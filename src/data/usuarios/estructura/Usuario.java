@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import data.db.cvs.CSVTransfrom;
+import data.empresas.estructura.omnibus.Asiento;
 import data.empresas.estructura.viaje.Viaje;
 
 public class Usuario implements CSVTransfrom<Usuario> {
@@ -28,7 +29,7 @@ public class Usuario implements CSVTransfrom<Usuario> {
         this.nickname = nickname;
         this.claveAcceso =contraseña;
         this.mail = mail;
-        ArrayList<String> correos = new ArrayList<>();
+        this.correos = new ArrayList<>();
     }
     public Usuario(String nombre,String nickname,String apellido, String DNI,String contraseña,String mail){
         this(nombre,nickname,apellido,DNI,null,contraseña,mail);
@@ -80,9 +81,16 @@ public class Usuario implements CSVTransfrom<Usuario> {
 
     public void setTarjeta(Tarjeta t){this.tarjeta = t;}
 
-    public void addCorreo(String correo) {
-        String confirm = "Compra de pasaje/s confirmada." + "\n" + correo;
+    public void addCorreo(Asiento a, Viaje v) {
+        String confirm = ("Compra de pasaje confirmada." + "\n" +
+                "Nro de asiento: " + a.getNroAsiento() + "\n" +
+                "Precio del pasaje: " + v.getPrecio() + "\n");
+
         this.correos.add(confirm);
+    }
+
+    public ArrayList<String> getCorreos() {
+        return this.correos;
     }
 
     public void cargarSaldoTarjeta(double i)
