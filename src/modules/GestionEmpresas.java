@@ -28,7 +28,6 @@ public class GestionEmpresas{
         System.out.print(menu);
         Scanner scanner = new Scanner(System.in);
         int opcion = scanner.nextInt();
-        scanner.close();
 
         while (opcion > 0 && opcion < menuSize){
             switch (opcion){
@@ -44,7 +43,6 @@ public class GestionEmpresas{
             }
             scanner = new Scanner(System.in);
             opcion = scanner.nextInt();
-            scanner.close();
         }
 
 
@@ -57,7 +55,6 @@ public class GestionEmpresas{
         System.out.print(menu);
         Scanner scanner = new Scanner(System.in);
         int opcion = scanner.nextInt();
-        scanner.close();
 
         while (opcion > 0 && opcion < menuSize){
             switch (opcion) {
@@ -72,7 +69,6 @@ public class GestionEmpresas{
             }
             scanner = new Scanner(System.in);
             opcion = scanner.nextInt();
-            scanner.close();
         }
     }
 
@@ -84,7 +80,6 @@ public class GestionEmpresas{
         System.out.print(menu);
         Scanner scanner = new Scanner(System.in);
         int opcion = scanner.nextInt();
-        scanner.close();
 
         while (opcion > 0 && opcion < menuSize){
             switch (opcion) {
@@ -99,7 +94,6 @@ public class GestionEmpresas{
             }
             scanner = new Scanner(System.in);
             opcion = scanner.nextInt();
-            scanner.close();
         }
     }
 
@@ -110,7 +104,6 @@ public class GestionEmpresas{
         System.out.print(menu);
         Scanner scanner = new Scanner(System.in);
         int opcion = scanner.nextInt();
-        scanner.close();
 
         while (opcion > 0 && opcion < menuSize){
             switch (opcion) {
@@ -119,7 +112,6 @@ public class GestionEmpresas{
             }
             scanner = new Scanner(System.in);
             opcion = scanner.nextInt();
-            scanner.close();
         }
     }
 

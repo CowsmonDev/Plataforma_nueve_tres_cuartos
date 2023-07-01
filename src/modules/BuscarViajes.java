@@ -77,7 +77,6 @@ public class BuscarViajes {
         String destino = scanner.nextLine();
 
         Pair<String, String> ciudad = new Pair<>(origen, destino);
-        scanner.close();
         return ciudad;
     }
 
@@ -123,7 +122,6 @@ public class BuscarViajes {
             b.setFiltroViajes(f2);
             empresasVuelta = b.buscar(empresas_totales);
         }
-        scanner.close();
         return new Pair<>(empresasIda, empresasVuelta);
     }
 
@@ -175,7 +173,6 @@ public class BuscarViajes {
             i = scanner.nextInt();
         }while (i == 1);
 
-        scanner.close();
         return asientosSeleccionados;
     }
 

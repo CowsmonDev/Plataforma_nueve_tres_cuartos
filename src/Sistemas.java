@@ -30,7 +30,6 @@ public class Sistemas {
         System.out.print(menu);
         Scanner scanner = new Scanner(System.in);
         int opcion = scanner.nextInt();
-        scanner.close();
 
         while (opcion > 0 && opcion < menuSize){
             if(opcion == 1){
@@ -45,12 +44,12 @@ public class Sistemas {
                     while(!exito){
                         System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
                         String respuesta = scanner.nextLine();
-                        scanner.close();
                         if(respuesta.equals("y")){
                             exito = login.loguearse();
                         }else
                             break;
                     }
+                    // ACA DEBERIA PREGUNTAR SI EL LOGIN FUE VALIDO
                     menu = menuConLogin;
                 }
             }else {
@@ -61,7 +60,6 @@ public class Sistemas {
                     while(!exito){
                         System.out.println("Algo salio mal, desea volver a intentarlo? (y/n)");
                         String respuesta = scanner.nextLine();
-                        scanner.close();
                         if(respuesta.equals("y")){
                             exito = login.registrarse();
                         }else
@@ -72,7 +70,6 @@ public class Sistemas {
             System.out.println(menu);
             scanner = new Scanner(System.in);
             opcion = scanner.nextInt();
-            scanner.close();
         }
         System.out.println("Gracias por usar el sistema");
 
@@ -96,10 +93,8 @@ public class Sistemas {
                 Scanner scanner = new Scanner(System.in);
                 String respuesta = scanner.nextLine();
                 if(respuesta.equals("n")){
-                    scanner.close();
                     return;
                 }
-                scanner.close();
             }
         }
         if(seConfirmaCompra)

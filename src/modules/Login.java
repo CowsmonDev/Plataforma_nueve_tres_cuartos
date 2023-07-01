@@ -25,16 +25,17 @@ public class Login {
         System.out.print("Ingrese su contraseña: " + System.lineSeparator());
         password = scanner.nextLine();
 
-        scanner.close();
 
         Usuario us = clientes.getUser(dni);
 
         if(us != null){  //valido que exista ese usuario
             if(us.getClaveAcceso().equals(password)){  //valido que se haya ingresado la contraseña correcta
                 this.us = us;
+                System.out.println("Se inicio sesion");
                 return true;
             }
         }
+        System.out.println("Datos incorrectos");
         return false;
     }
 
@@ -68,7 +69,7 @@ public class Login {
         System.out.println("Ingrese clave de acceso. (debe contener al menos 8 caracteres, minuscula/s, mayuscula/s y al menos un numero)");
         String clave = scanner.nextLine();
 
-        if(this.validarClaveAcceso(clave)){
+        if(!this.validarClaveAcceso(clave)){
             do {
                 System.out.println("Clave de acceso NO valida.");
                 System.out.println("Ingrese clave de acceso. (debe contener al menos 8 caracteres, minuscula/s, mayuscula/s y al menos un numero)");
@@ -100,7 +101,6 @@ public class Login {
         clientes.addUser(us);
 
         System.out.println("Registro completado exitosamente.");
-        scanner.close();
         return true;
     }
 
