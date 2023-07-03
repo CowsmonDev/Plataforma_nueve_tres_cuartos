@@ -1,0 +1,30 @@
+Origen ;Destino;Fecha;Precio;IdOmnibus
+Tandil;Necochea;26/7/2023;5000;1
+Buenos Aires;Tandil;26/7/2023;9000;2
+Buenos Aires;Mar Del Plata;4/8/2023;10000;3
+Tandil;Mar Del Plata;4/8/2023;8000;4
+Mar Del Plata ;Tandil;8/8/2023;6000;5
+Tandil;La Plata;16/8/2023;10000;6
+Tandil;Rosario;16/8/2023;6000;5
+Tandil;Buenos Aires;16/8/2023;5000;4
+Tandil;Necochea;21/8/2023;10000;3
+La Plata;Mar Del Plata;23/8/2023;7000;2
+Mar Del Plata ;Tandil;23/8/2023;10000;1
+Tandil;Buenos Aires;14/9/2023;9000;1
+Tandil;Buenos Aires;14/9/2023;5000;2
+Tandil;Buenos Aires;18/9/2023;7000;3
+Tandil;Necochea;18/9/2023;10000;4
+Tandil;Mar Del Plata;18/9/2023;6000;5
+Mar Del Plata ;Necochea;18/9/2023;6000;6
+Mar Del Plata ;Buenos Aires;18/9/2023;11954;6
+Buenos Aires;Tandil;5/10/2023;9000;5
+Buenos Aires;Tandil;9/10/2023;7000;4
+Necochea ;Tandil;11/10/2023;10000;3
+Necochea ;Mar Del Plata;18/10/2023;10000;2
+Necochea ;La Plata;20/10/2023;9000;1
+Mar Del Plata ;Tandil;10/11/2023;10000;1
+Mar Del Plata ;Necochea;10/11/2023;8000;2
+Mar Del Plata ;Buenos Aires;21/11/2023;9000;3
+Tandil;Buenos Aires;28/11/2023;7000;6
+Tandil;Mar Del Plata;30/11/2023;10000;5
+Tandil;Rosario;30/11/2023;9000;4
